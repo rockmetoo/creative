@@ -297,10 +297,10 @@
 		 */
 		public function __construct($form_ml, $doValidate=true, $entities=array())
 		{
-			global $SIMPLESO_SYSTEM_DEF;
+			global $CREATIVE_SYSTEM_DEF;
 			
-			$this->lang = new CLocalization($SIMPLESO_SYSTEM_DEF['lang'], 'CFormValidator.php');
-			$this->_email = CSettings::$SYSTEM_MAIL_VALUES['it'];
+			$this->lang = new CLocalization($CREATIVE_SYSTEM_DEF['lang'], 'formValidator.php');
+			$this->_email = CSettings::$SYSTEM_MAIL_VALUES['tech'];
 			$this->_entities = array_merge($this->_entities, $entities);
 			$this->_form_ml = trim($form_ml);
 			$this->_convertEntities();
@@ -617,12 +617,15 @@
 			$this->_output->tag($tag, $attr);
 		}
 
-		private function cdataHandler($parser, $data){
+		private function cdataHandler($parser, $data)
+		{
 			if($this->_copy) $this->_output->text($data);
 		}
 
-		private function tagCloseHandler($parser, $tag){
-			switch ($tag){
+		private function tagCloseHandler($parser, $tag)
+		{
+			switch ($tag)
+			{
 				case 'error':
 				case 'errormsg':
 				case 'errorlist':
@@ -652,7 +655,8 @@
 		 * @param string $rule_name
 		 * @param string $data XML String. If provided, will overwrite whatever was set in the Form.
 		 */
-		public function setError($element_name, $rule_name, $data=null){
+		public function setError($element_name, $rule_name, $data=null)
+		{
 			if(!is_null($data)) $this->_elements[$element_name]['errors'][$rule_name] = $data;
 
 			if(!isset($this->_errors[$element_name])) $this->_errors[$element_name] = array();
@@ -666,7 +670,8 @@
 		 * @param string $rule_name
 		 * @param string $data XML String. If provided, will overwrite whatever was set in the From.
 		 */
-		public function setInfo($element_name, $rule_name, $data=null){
+		public function setInfo($element_name, $rule_name, $data=null)
+		{
 			if(!is_null($data)) $this->_elements[$element_name]['info'][$rule_name] = $data;
 
 			if(!isset($this->_info[$element_name])) $this->_info[$element_name] = array();
@@ -678,7 +683,8 @@
 		 *
 		 * @return array
 		 */
-		public function getErrors(){
+		public function getErrors()
+		{
 			return $this->_errors;
 		}
 
@@ -747,10 +753,13 @@
 	    }
 
 
-		private function _convertEntities(){
+		private function _convertEntities()
+		{
 			$entities = array();
 			$values = array();
-			while($entity = each($this->_entities)){
+			
+			while($entity = each($this->_entities))
+			{
 				$entities[] = '&' . $entity[0] . ';';
 				$values[] = $entity[1];
 			}
@@ -770,7 +779,7 @@
 
 		private function _sendParserError($error_string, $error_line_num, $error_byte_num)
 		{
-			global $SIMPLESO_SYSTEM_DEF;
+			global $CREATIVE_SYSTEM_DEF;
 			
 			$keep = array(
 				'lang',
@@ -783,14 +792,15 @@
 				'SCRIPT_FILENAME'
 			);
 
-			$vars = array_intersect_key(array_merge($SIMPLESO_SYSTEM_DEF, $_SERVER), array_flip($keep));
+			$vars = array_intersect_key(array_merge($CREATIVE_SYSTEM_DEF, $_SERVER), array_flip($keep));
 			ob_start();
 			var_dump($vars);
 			$vars = ob_get_contents();
 			ob_end_clean();
 
 			$text = '';
-			foreach(explode("\n", $this->_form_ml) as $line_num=>$line){
+			foreach(explode("\n", $this->_form_ml) as $line_num=>$line)
+			{
 				if($line_num > $error_line_num - 10 && $line_num < $error_line_num + 10)
 					$text .= $line_num+1 . ":\t" . $line . "\n";
 			}
@@ -799,7 +809,9 @@
 				'xml' => $text,
 				'error' => sprintf('%s on line %d', $error_string, $error_line_num)
 			);
+			
 			$plain = CMail::prepareTemplate('form_parsing_error_en', $tmpl_vars, 0, 'no');
+			
 			CMail::send(
 				array(CSettings::$SYSTEM_MAIL_VALUES['support'], 'Form Validator Engine'), $this->_email
 				, $this->_email_subject, $plain
@@ -807,14 +819,17 @@
 
 			//replace form contents with error message.
 			if(!$this->_output) $this->_output = CXML::startTag('div');
-			if(!$this->lang){
+			
+			if(!$this->lang)
+			{
 				$this->_output->tag('div', array('class' => 'error'))->tag('h4')
 				->text('Internal Error - Form could not be loaded')->close()
-				->tag('p')->text('simpleso technical team has been informed, please try again in 10 minutes. ')
+				->tag('p')->text('creative technical team has been informed, please try again in 10 minutes. ')
 				->tag('a', array('href' => 'javascript:history.go(-1);'))
 				->text('Return to previous page')->close()->close()->close();
 			}
-			else{
+			else
+			{
 				$this->_output->tag('div', array('class'=>'error'))->tag('h4')
 				->text($this->lang->get('internal form error'))
 				->close()->tag('p')->text($this->lang->get('it informed'))
@@ -826,7 +841,8 @@
 	} // End CFormValidator Class
 
 
-	class FormRuleExtractor{
+	class FormRuleExtractor
+	{
 		// Extracts the validation rules from the formML.
 		// Implementation note: the 'validate' attribute is a convenience, it is converted in
 		// to either a regular expression rule or a callback
@@ -843,7 +859,8 @@
 		private $_msg_value;
 		private $_collect_msg = false;
 
-		public function __construct($form_ml){
+		public function __construct($form_ml)
+		{
 			$this->_parser = xml_parser_create('UTF-8');
 
 			// Set XML parser to take the case of tags in to account
@@ -857,8 +874,10 @@
 			$this->_form_ml = $form_ml;
 		}
 
-		public function __get($name){
-			switch($name){
+		public function __get($name)
+		{
+			switch($name)
+			{
 				case 'elements':
 					return $this->_elements;
 				case 'messages':
@@ -866,20 +885,25 @@
 			}
 		}
 
-		public function run(){
-			if(!xml_parse($this->_parser, $this->_form_ml)){
+		public function run()
+		{
+			if(!xml_parse($this->_parser, $this->_form_ml))
+			{
 				$this->_parse_error_string = xml_error_string(xml_get_error_code($this->_parser));
 				$this->_parse_error_line_num = xml_get_current_line_number($this->_parser);
 				$this->_parse_error_byte_num = xml_get_current_byte_index($this->_parser);
 			}
+			
 			xml_parser_free($this->_parser);
 			if($this->_parse_error_string) return false;
 			return true;
 		}
 
-		public function tagOpenHandler($parser, $tag, $attr){
+		public function tagOpenHandler($parser, $tag, $attr)
+		{
 			// First, the stuff to deal with the msg tag and contents
-			if($tag == 'infomsg' || $tag == 'errormsg'){
+			if($tag == 'infomsg' || $tag == 'errormsg')
+			{
 				if(isset($attr['for']) && isset($attr['name']))
 					$this->_msg_name = array($attr['for'],$attr['name']);
 				else return;
@@ -890,7 +914,8 @@
 			}
 
 			// Default error
-			if($tag == 'error' || $tag == 'info'){
+			if($tag == 'error' || $tag == 'info')
+			{
 				if(isset($attr['for']) && !isset($this->_msg[$attr['for']][$tag]['default']))
 					$this->_msg_name = array($attr['for'], 'default');
 				else return;
@@ -900,11 +925,15 @@
 				return;
 			}
 
-			if($this->_collect_msg){
+			if($this->_collect_msg)
+			{
 				$this->_msg_value .= '<'.$tag.$this->_makeAttr($attr);
-				if(in_array($tag, array('br', 'img'))){
+				if(in_array($tag, array('br', 'img')))
+				{
 					$this->_msg_value .= ' />';
-				} else{
+				}
+				else
+				{
 					$this->_msg_value .= '>';
 				}
 			}
@@ -913,7 +942,8 @@
 			if(!in_array($tag, array('input', 'select', 'textarea'))) return;
 
 			// Skip submit and reset fields
-			if(isset($attr['type']) && in_array($attr['type'], array('submit', 'reset'))){
+			if(isset($attr['type']) && in_array($attr['type'], array('submit', 'reset')))
+			{
 				return;
 			}
 
@@ -927,58 +957,60 @@
 			if(substr($name,-2) == '[]') $name = substr($name,0,-2);
 
 			// mandatory="yes"
-			if(isset($attr['mandatory']) && $attr['mandatory'] == 'yes'){
+			if(isset($attr['mandatory']) && $attr['mandatory'] == 'yes')
+			{
 				$element['rules']['mandatory'] = array('mandatory' => true);
 			}
 
 			//Get image size and select number
-			if(isset($attr['params'])){
+			if(isset($attr['params']))
+			{
 				if(substr($attr['params'],0,1) == '{') $element['params'] = json_decode($attr['params'],true);
 				else $element['params'] = array('default'=>$attr['params']);
 			}
 
 			// validate="something"
-			if(isset($attr['validate'])){
+			if(isset($attr['validate']))
+			{
 				if(substr($attr['validate'], 0, 1) == '{') $validate = json_decode($attr['validate'], true);
 				else $validate = array('default'=>$attr['validate']);
 
-				foreach($validate as $k=>$v){
+				foreach($validate as $k=>$v)
+				{
 					if(!isset($element['rules'][$k])) $element['rules'][$k] = array();
-					switch($v){
+					
+					switch($v)
+					{
 						case 'filled_in':
 							$element['rules'][$k]['mandatory'] = true;
 							break;
 
-						case 'alpha':
+						case 'checkAlpha':
 							$element['rules'][$k]['regexp'] = '|^[a-zA-Z ]*$|';
 							break;
 
-						case 'alphanumeric':
+						case 'checkAlphaNumeric':
 							if(isset($element['params'][$k])) $element['rules'][$k]['regexp'] = '|^[a-zA-Z0-9]{'.$element['params'][$k].'}$|';
 							else $element['rules'][$k]['regexp'] = '|^[a-zA-Z0-9]*$|';
 							break;
 
-						case 'alphanumericatdot':
+						case 'checkAlphaAtDot':
 							$element['rules'][$k]['callback'] = 'this:checkAlphaAtDot';
 							break;
 
-						case 'unixstylename':
+						case 'checkUnixName':
 							$element['rules'][$k]['callback'] = 'this:checkUnixName';
 							break;
 
-						case 'numeric':
+						case 'checkIsNumeric':
 							$element['rules'][$k]['callback'] = 'this:isNumeric';
 							break;
 
-						case 'date':
+						case 'checkDate':
 							$element['rules'][$k]['callback'] = 'this:checkDate';
 							break;
 
-						case 'date_mandatory':
-							$element['rules'][$k]['callback'] = 'this:checkDateMandatory';
-							break;
-
-						case 'email':
+						case 'checkEmail':
 							$element['rules'][$k]['callback'] = 'this:checkEmail';
 							break;
 
@@ -986,28 +1018,12 @@
 							$element['rules'][$k]['mandatory'] = true;
 							break;
 
-						case 'captcha':
+						case 'checkCaptcha':
 							$element['rules'][$k]['callback'] = 'this:checkCaptcha';
 							break;
 						
 						case 'checkCellPhone':
 							$element['rules'][$k]['callback'] = 'this:checkCellPhone';
-							break;
-						
-						case 'checkSmsSecretCode':
-							$element['rules'][$k]['callback'] = 'this:checkSmsSecretCode';
-							break;
-							
-						case 'checkOnlyHiragana':
-							$element['rules'][$k]['callback'] = 'this:checkOnlyHiragana';
-							break;
-						
-						case 'checkPreOrderReservationCode':
-							$element['rules'][$k]['callback'] = 'this:checkPreOrderReservationCode';
-							break;
-						
-						case 'checkPreOrderReservationPerson':
-							$element['rules'][$k]['callback'] = 'this:checkPreOrderReservationPerson';
 							break;
 					}
 				}

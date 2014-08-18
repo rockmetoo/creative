@@ -18,7 +18,9 @@
 		public static function checkCEmail($value, $params=array())
 		{
 			$cc = explode(',', $value);
-			foreach($cc as $email){
+			
+			foreach($cc as $email)
+			{
 				if(!self::checkEmail(trim($email), $params)) return false;
 			}
 			return true;
@@ -42,22 +44,6 @@
 				//date not right format yyyy-mm-dd
 				return false;
 			}
-			if(!checkdate($matches[2], $matches[3], $matches[1]))
-			{
-				//date not correct
-				return false;
-			}
-			return true;
-		}
-
-		public static function checkDateMandatory($date, $params)
-		{
-			if(!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $date, $matches))
-			{
-				//date not right format yyyy-mm-dd
-				return false;
-			}
-			
 			if(!checkdate($matches[2], $matches[3], $matches[1]))
 			{
 				//date not correct
@@ -113,35 +99,6 @@
 			return false;
 		}
 		
-		public static function checkSmsSecretCode($value, $params)
-		{
-			include_once 'CUser.php';
-			
-			$orderId = $_REQUEST['o'];
-			
-			$phoneId	= CUser::getPhonIdByOrderid($orderId);
-			$user		= CUser::getUserDetails($phoneId);
-			
-			if($user['smsSecretCode'] == $_REQUEST['smsSecretCode'])
-			{
-				return true;
-			}
-			
-			return false;
-		}
-		
-		/**
-		 * Check only hiragana including space
-		 * @param string $check The value to check.
-		 * @return boolean
-		 */
-		public static function checkOnlyHiragana($string)
-		{
-			$pattern = "/^[\x{3041}-\x{3096}\s]*$/u";
-				
-			return (bool) preg_match($pattern, $string);
-		}
-		
 		public static function checkAlphaAtDot($value, $params)
 		{
 			if(preg_match("'[^A-Za-z0-9@.]|\s{2}'", $value))
@@ -159,38 +116,6 @@
 				return false;
 			}
 			else{ return true; }
-		}
-		
-		public static function checkPreOrderReservationCode($value, $params)
-		{
-			include_once 'CUser.php';
-				
-			$preorderReservation	= $_REQUEST['preorderReservation'];
-			$orderInfo				= CUser::checkPreorderReservation($preorderReservation);
-				
-			if($orderInfo)
-			{
-				return true;
-			}
-				
-			return false;
-		}
-		
-		public static function checkPreOrderReservationPerson($value, $params)
-		{
-			include_once 'CUser.php';
-		
-			$preorderReservation		= $_REQUEST['preorderReservation'];
-			$nameOfTheDeceasedPerson	= $_REQUEST['nameOfTheDeceasedPerson'];
-		
-			$orderInfo = CUser::checkPreorderReservationPerson($preorderReservation, $nameOfTheDeceasedPerson);
-		
-			if($orderInfo)
-			{
-				return true;
-			}
-		
-			return false;
 		}
 
 		public static function validXML($value, $params=array())

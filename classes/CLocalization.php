@@ -5,25 +5,26 @@
 	class CLocalization
 	{
 		var $lang;
-		var $page_name;
+		var $pageName;
 		var $translation	= array();
 		var $common			= array();
 
-		function CLocalization($lang, $page_name)
+		function __construct($lang, $pageName=false)
 		{
-			$this->lang 		= $lang;
-			$this->page_name	= $page_name;
+			$this->lang 	= $lang;
+			$this->pageName	= $pageName;
 			$this->_init();
 		}
 
 		function _init()
 		{
-			include_once('localization'. DIRECTORY_SEPARATOR . $this->lang . DIRECTORY_SEPARATOR . $this->page_name);
-			include_once('localization'. DIRECTORY_SEPARATOR . $this->lang . DIRECTORY_SEPARATOR . 'common.php');
+			if($this->pageName) include_once('localization/' . $this->lang . '/' . $this->pageName);
+			
+			include_once('localization/' . $this->lang . '/' . 'common.php');
 			$this->translation = array_merge($this->translation, $this->common);
 		}
 
-		function get($index, $val = false)
+		public function get($index, $val = false)
 		{
 			if(!$val && isset($this->translation[$index])) return $this->translation[$index];
 			else if(is_array($val) && isset($this->translation[$index])) return vsprintf($this->translation[$index], $val);
@@ -46,7 +47,7 @@
 			}
 		}
 
-		function getLang()
+		public function getLang()
 		{
 			return $this->lang;
 		}

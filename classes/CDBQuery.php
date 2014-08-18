@@ -1,5 +1,6 @@
 <?php
 
+	include_once 'CSettings.php';
 	include_once 'CLog.php';
 	include_once 'CMemCacheD.php';
 	
@@ -11,17 +12,12 @@
 		private $defaultConnection	= 'creative';
 		private $cacheDeactivate	= false;
 		private $debug				= false;
-		private $debugBenchmark	= false;
+		private $debugBenchmark		= false;
 		private $debugExplain		= false;
 		private $debugTurnOff		= false;
 		private $isMemCacheCompress	= false;
 		var		$registeredSql		= array();
 		
-		private $db_connections_pool = array(
-			'creative'		=> array('creative', 'root', 'uselesspass', 'creative', '3306', NULL),
-			'creativeUser'	=> array('creativeUser', 'root', 'uselesspass', 'creativeUser', '3306', NULL),
-		);
-
 		public function __construct($connection = '')
 		{
 			include_once('includes'. DIRECTORY_SEPARATOR . 'memcacheSqlValues.php');
@@ -35,22 +31,25 @@
 			}
 		}
 		
-		public function checkTableExists($table_name)
+		public function checkTableExists($tableName)
 		{
-			return $this->checkTableExistsOther($this->connection, $table_name);
+			return $this->checkTableExistsOther($this->connection, $tableName);
 		}
 
-		public function checkTableExistsOther($connection, $table_name)
+		public function checkTableExistsOther($connection, $tableName)
 		{
-			$connection = (string)$connection;
-			$table_name = (string)$table_name;
-			//Get connection and run simple query to check if it exists or not
-			$conn = $this->connect($connection);
-			$query = "SELECT 1 FROM `$table_name` LIMIT 0";
+			$connection	= (string) $connection;
+			$tableName	= (string) $tableName;
+			
+			// Get connection and run simple query to check if it exists or not
+			$conn	= $this->connect($connection);
+			$query	= "SELECT 1 FROM `$tableName` LIMIT 0";
+
 			if(@$conn->query($query))
 			{
 				return true;
 			}
+			
 			return false;
 		}
 
@@ -79,17 +78,16 @@
 		 */
 		public function connect($conn)
 		{
-			if($this->db_connections_pool[$conn][5])
+			if(CSettings::$MYSQL_CONNECTION_POOL[$conn][5])
 			{
-				return $this->db_connections_pool[$conn][5];
-				exit;
+				return CSettings::$MYSQL_CONNECTION_POOL[$conn][5];
 			}
-
-			//Initialize and return the mysqli object
+				
+			// Initialize and return the mysqli object
 			$mysqli = new mysqli(
-				$this->db_connections_pool[$conn][0], $this->db_connections_pool[$conn][1]
-				, $this->db_connections_pool[$conn][2], $this->db_connections_pool[$conn][3]
-				, $this->db_connections_pool[$conn][4]
+				CSettings::$MYSQL_CONNECTION_POOL[$conn][0], CSettings::$MYSQL_CONNECTION_POOL[$conn][1],
+				CSettings::$MYSQL_CONNECTION_POOL[$conn][2], CSettings::$MYSQL_CONNECTION_POOL[$conn][3],
+				CSettings::$MYSQL_CONNECTION_POOL[$conn][4]
 			);
 			
 			if($this->debug && mysqli_connect_errno())
@@ -97,14 +95,14 @@
 				echo nl2br("[ CONNECTION ERROR ]" . mysqli_connect_errno() . ": " . mysqli_connect_error());
 			}
 
-			$this->db_connections_pool[$conn][5] = $mysqli;
+			CSettings::$MYSQL_CONNECTION_POOL[$conn][5] = $mysqli;
 			
 			return $mysqli;
 		}
 		
 		public function getConnection($conn)
 		{
-			return $this->db_connections_pool[$conn][5];
+			return CSettings::$MYSQL_CONNECTION_POOL[$conn][5];
 		}
 		
 		public function deactivateCache()

@@ -6,13 +6,13 @@
 	global $CSS_FILES;
 	
 	// XXX: all global js to js array.
-	$globalJS_FILES = array('jquery.min.js', 'jquery.ui.js');
+	$globalJsFiles = array('jquery.min.js', 'jquery.ui.js');
 	
 	if(isset($JS_FILES) && is_array($JS_FILES))
 	{
-		$JS_FILES = array_unique(array_merge($globalJS_FILES, $JS_FILES));
+		$JS_FILES = array_unique(array_merge($globalJsFiles, $JS_FILES));
 	}
-	else $JS_FILES = &$globalJS_FILES;
+	else $JS_FILES = &$globalJsFiles;
 
 	//set js script text
 	$JS_STRING = trim($JS_STRING);
@@ -63,7 +63,7 @@
 		<meta content="all" name="audience" />
 		<meta content="index,all" name="robots" />
 		<meta content="2 days" name="revisit-after" />
-		<meta name="Author" content="Mituz Car" />
+		<meta name="Author" content="creative" />
 		<meta name="description" content="<?php if(isset($metaDescription)) echo $metaDescription; else echo 'model test'; ?>" />
 		<meta name="keywords" content="<?php if(isset($metaKeywords)) echo $metaKeywords; else echo 'open question and exam site'; ?>" />
 		<?php

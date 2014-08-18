@@ -137,7 +137,7 @@
 			
 			$templateObj = new CTemplate();
 			
-			//if language is not set default to the language set in SESSION_DEFS
+			// if language is not set default to the language set in $CREATIVE_SYSTEM_DEF
 			if($language == '' || $CREATIVE_SYSTEM_DEF['lang'] == $language)
 			{
 				global $lang;
@@ -175,107 +175,6 @@
 				}
 			}
 			return str_replace('&;', '&', $t);
-		}
-
-		/**
-		 * Prepare template for sending
-		 *
-		 * @param string $template
-		 * @param array $values
-		 * @param bolean $html
-		 * @param string $add_header
-		 * @param string $language
-		 * @param bolean $employer
-		 * @return string
-		 */
-		public static function prepareTemplate($template, $values, $html = 1)
-		{
-			global $CREATIVE_SYSTEM_DEF;
-			
-			$templateObj = new CTemplate();
-			
-			$out = array();
-			
-			$out[0] = ''; $out[2] = '';
-			
-			//retrieve template
-			$t = '';
-			if(is_array($template) || strlen($template) < 50)
-			{
-				if(is_array($template))
-				{
-					$sizeofTemplate = sizeof($template);
-					
-					for($i=0; $i<$sizeofTemplate; $i++)
-					{
-						if($html)
-						{
-							$t .= $templateObj->getContents('email/' . $template[$i] . '_html.txt');
-						}
-						else
-						{
-							$t .= $templateObj->getContents('email/' . $template[$i] . '_plain.txt');
-						}
-					}
-				}
-				else if($template)
-				{
-					if($html)
-					{
-						$t = $templateObj->getContents('email/' . $template[$i] . '_html.txt');
-					}
-					else
-					{
-						$t = $templateObj->getContents('email/' . $template[$i] . '_plain.txt');
-					}
-				}
-				
-				//change variables in template
-				preg_match_all("/\[\[([^\]]+)\]\]/", $t, $matches);
-				
-				if(sizeof($matches))
-				{
-					$sizeof_matches_zero = sizeof($matches[0]);
-					for($i=0; $i<$sizeof_matches_zero; $i++)
-					{
-						$t = str_replace($matches[0][$i], $lang->get(strtolower($matches[1][$i])), $t);
-					}
-				}
-				
-				if(is_array($values))
-				{
-					foreach($values as $k => $v)
-					{
-						if(!is_array($v)) $t = preg_replace("/\{\{$k\}\}/ui", unsanitize($v), $t);
-					}
-				}
-			}
-			else
-			{
-				$t = $template; //full of precompiled content
-				preg_match_all("/\[\[([^\]]+)\]\]/", $t, $matches);
-				if(sizeof($matches))
-				{
-					$sizeof_matches_zero = sizeof($matches[0]);
-					
-					for($i=0; $i<$sizeof_matches_zero; $i++)
-					{
-						$t = str_replace($matches[0][$i], $lang->get(strtolower($matches[1][$i])), $t);
-					}
-				}
-			}
-			
-			$out[1] = $t;
-			//$out = implode('', $out);
-			//was printing out of order... 0, 2, 1 (header, footer, body)
-			$out = $out[0] . $out[1] . $out[2];
-			return str_replace('&;', '&', $out);
-		}
-
-		private static function encodeAddress($email, $name='')
-		{
-			if($name) return $name.' <'.$email.'>';
-			else return $email;
 		}
 
 		public static function checkKeitaiEmail($receiver)

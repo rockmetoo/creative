@@ -6,96 +6,35 @@
 
 	class CDBUser extends CDBQuery
 	{
-		public static function setUserDashboardPos($pos, $userId)
-		{
-			global $db;
-			$userId = intval($userId);
-			$affected_rows = $db->update(
-				'userDashboardPos'
-				, array(
-					'userId' => $userId), 0
-					, array('dashboardPosVal' => $pos, 'dateUpdated' => date('Y-m-d H:i:s')
-				)
-			);
-			
-			if($affected_rows == 0)
-			{
-				$userDashboardPosId = $db->insert('userDashboardPos',
-					array(
-						'userId' => $userId,
-						'dashboardPosVal' => $pos,
-						'dateCreated' => date('Y-m-d H:i:s'),
-						'dateUpdated' => date('Y-m-d H:i:s')
-					)
-				);
-				return $userDashboardPosId;
-			}
-			
-			return $affected_rows;
-		}
-		
-		public static function setMachineDataDashboardPos($pos, $userId)
-		{
-			global $db;
-			$userId = intval($userId);
-			$affected_rows = $db->update(
-				'machineDataDashboardPos'
-				, array('userId' => $userId), 0, array('dashboardPosVal' => $pos, 'dateUpdated' => date('Y-m-d H:i:s'))
-			);
-				
-			if($affected_rows == 0)
-			{
-				$userDashboardPosId = $db->insert('machineDataDashboardPos',
-					array(
-						'userId' => $userId,
-						'dashboardPosVal' => $pos,
-						'dateCreated' => date('Y-m-d H:i:s'),
-						'dateUpdated' => date('Y-m-d H:i:s')
-					)
-				);
-				return $userDashboardPosId;
-			}
-				
-			return $affected_rows;
-		}
-		
-		public static function setLogDataDashboardPos($pos, $userId)
-		{
-			global $db;
-			$userId = intval($userId);
-			$affected_rows = $db->update(
-				'logDataDashboardPos'
-				, array('userId' => $userId), 0, array('dashboardPosVal' => $pos, 'dateUpdated' => date('Y-m-d H:i:s'))
-			);
-		
-			if($affected_rows == 0)
-			{
-				$userDashboardPosId = $db->insert('logDataDashboardPos',
-					array(
-						'userId' => $userId,
-						'dashboardPosVal' => $pos,
-						'dateCreated' => date('Y-m-d H:i:s'),
-						'dateUpdated' => date('Y-m-d H:i:s')
-					)
-				);
-				return $userDashboardPosId;
-			}
-		
-			return $affected_rows;
-		}
-		
 		public static function getUserDetails($userId)
 		{
 			global $db;
-			$userId = intval($userId);
-			$query = $db->quoteInto("SELECT * FROM userProfile WHERE userId=%s", $userId);
-			$res = $db->query($query);
+			
+			$userId	= intval($userId);
+			$query	= $db->quoteInto("SELECT * FROM userProfile WHERE userId=%s", $userId);
+			$res	= $db->query($query);
+			
 			if(!$res->num_rows)
 			{
 				return array();
 			}
 			
 			return $res->fetch_assoc();
+		}
+		
+		public static function getUserType($userId)
+		{
+			global $CREATIVE_SYSTEM_DEF;
+			global $db;
+			
+			$query	= "SELECT userType FROM user WHERE userId = '$userId'";
+			$res	= $db->queryOther('creativeUser', $query);
+				
+			$foo = $res->fetch_assoc();
+			
+			$CREATIVE_SYSTEM_DEF['userType'] = $foo['userType'];
+			
+			return $foo['userType'];
 		}
 		
 		/**
@@ -170,12 +109,6 @@
 			return $userId;
 		}
 		
-		// TODO: for registered user we need authentic information to avoid after spamming claim
-		public static function setUserOfficialProfile($userId, $changes, $updateChangesOnly = false)
-		{
-			
-		}
-		
 		public static function setPassword($old_password, $new_password, $re_new_password)
 		{
 			global $db;
@@ -248,134 +181,6 @@
 			}
 		}
 		
-		public static function createCockpitUser($username, $password, $re_password, $primary_email, $firstName, $user_status)
-		{
-			global $db;
-			if($password === $re_password)
-			{
-				$userId = $db->insertOther('siteUser',  'user',
-					array(
-						'username'				=> $username,
-						'password'				=> md5($password),
-						'userStatus'			=> $user_status,
-						'registrationDate'		=> date('Y-m-d H:i:s'),
-						'loginCount'			=> 0,
-						'lastChangedPassword'	=> date('Y-m-d H:i:s'),
-						'userStatusChangeDate'	=> date('Y-m-d H:i:s'),
-						'dateCreated'			=> date("Y-m-d H:i:s"),
-						'dateUpdated'			=> date("Y-m-d H:i:s")
-					)
-				);
-				
-				if($userId)
-				{
-					$employer_id = $db->insertOther('smith',  'userProfile',
-						array(
-							'userId'			=> $userId,
-							'firstName'			=> $firstName,
-							'primaryEmail'		=> $primary_email,
-							'dateCreated'		=> date("Y-m-d H:i:s"),
-							'dateUpdated'		=> date("Y-m-d H:i:s")
-						)
-					);
-				}
-				else
-				{
-					return array(0, "Error: Can't create user in COCKPIT");
-				}
-				
-				return array(1, "Create a New COCKPIT User. Hurray...");
-			}
-			else
-			{
-				return array(0, "Password and Re-type password are not same!!!");
-			}
-		}
-
-		public static function getUserServiceACL($userId)
-		{
-			global $db;
-			global $EC_CONTROL_PANEL;
-			global $EC_CONTROL_PANEL_SUB;
-			
-			$controlPanelKeys = array_keys($EC_CONTROL_PANEL);
-			
-			$userId	= intval($userId);
-			$query	= $db->quoteInto("SELECT * FROM userServiceAcl WHERE userId=%s AND active = 1 ORDER BY serviceGroup ASC, serviceFunction ASC", $userId);
-			$res	= $db->query($query);
-			
-			if(!$res->num_rows)
-			{
-				return array();
-			}
-			
-			$myAvailableService = array();
-			
-			while($foo = $res->fetch_assoc())
-			{
-				$controlPanelSubKeys = array_keys($EC_CONTROL_PANEL_SUB[$controlPanelKeys[$foo['serviceGroup']]]);
-				$myAvailableService[$controlPanelKeys[$foo['serviceGroup']]][] = $controlPanelSubKeys[$foo['serviceFunction']];
-			}
-			
-			return $myAvailableService;
-		}
-		
-		public static function getMachineDataServiceACL($userId)
-		{
-			global $db;
-			global $MACHINEDATA_CONTROL_PANEL;
-			global $MACHINEDATA_CONTROL_PANEL_SUB;
-			
-			$controlPanelKeys = array_keys($MACHINEDATA_CONTROL_PANEL);
-			
-			$userId	= intval($userId);
-			$query	= $db->quoteInto("SELECT * FROM machineDataServiceAcl WHERE userId=%s AND active = 1 ORDER BY serviceGroup ASC, serviceFunction ASC", $userId);
-			$res	= $db->query($query);
-			
-			if(!$res->num_rows)
-			{
-				return array();
-			}
-			
-			$myAvailableService = array();
-			
-			while($foo = $res->fetch_assoc())
-			{
-				$controlPanelSubKeys = array_keys($MACHINEDATA_CONTROL_PANEL_SUB[$controlPanelKeys[$foo['serviceGroup']]]);
-				$myAvailableService[$controlPanelKeys[$foo['serviceGroup']]][] = $controlPanelSubKeys[$foo['serviceFunction']];
-			}
-			
-			return $myAvailableService;
-		}
-		
-		public static function getLogDataServiceACL($userId)
-		{
-			global $db;
-			global $LOGDATA_CONTROL_PANEL;
-			global $LOGDATA_CONTROL_PANEL_SUB;
-				
-			$controlPanelKeys = array_keys($LOGDATA_CONTROL_PANEL);
-				
-			$userId	= intval($userId);
-			$query	= $db->quoteInto("SELECT * FROM logDataServiceAcl WHERE userId=%s AND active = 1 ORDER BY serviceGroup ASC, serviceFunction ASC", $userId);
-			$res	= $db->query($query);
-				
-			if(!$res->num_rows)
-			{
-				return array();
-			}
-				
-			$myAvailableService = array();
-				
-			while($foo = $res->fetch_assoc())
-			{
-				$controlPanelSubKeys = array_keys($LOGDATA_CONTROL_PANEL_SUB[$controlPanelKeys[$foo['serviceGroup']]]);
-				$myAvailableService[$controlPanelKeys[$foo['serviceGroup']]][] = $controlPanelSubKeys[$foo['serviceFunction']];
-			}
-				
-			return $myAvailableService;
-		}
-		
 		/**
 		 * Get company name
 		 *
@@ -389,133 +194,38 @@
 			$userId = intval($userId);
 			$query = $db->quoteInto("SELECT firstName, lastName FROM userProfile WHERE userId = %s", $userId);
 			$res = $db->query($query);
+			
 			if($res->num_rows)
 			{
 				$foo = $res->fetch_assoc();
 				return $foo['firstName'] . ' ' . $foo['lastName'];
 			}
+			
+			return ' ';
 		}
-
-		public static function getUserDashboardPosition($userId, $memcached = -1)
+		
+		public static function getSignInAs()
+		{
+			global $CREATIVE_SYSTEM_DEF;
+			global $db;
+			
+			$username = self::getUserName($CREATIVE_SYSTEM_DEF['userId']);
+			
+			return ($username == ' ') ? $CREATIVE_SYSTEM_DEF['username'] : $username;
+		}
+		
+		public static function setUserProfile($userId)
 		{
 			global $db;
-			$dashPosition = array();
-			$userId = intval($userId);
-			$query = $db->quoteInto("SELECT dashboardPosVal FROM userDashboardPos WHERE userId = %s", $userId);
-			$res = $db->query($query, $memcached);
-			if($res->num_rows)
-			{
-				$foo = $res->fetch_assoc();
-				$dashPosition = explode('|', $foo['dashboardPosVal']);
-				return $dashPosition;
-			}
-			else
-			{
-				// XXX: IMPORTANT, READ IT - If you increment anything in form_values_en then fix it here as well
-				$dashPosition[0] = 0; $dashPosition[1] = 1; $dashPosition[2] = 2;
-				$dashPosition[3] = 3; $dashPosition[4] = 4; $dashPosition[5] = 5;
-				
-				return $dashPosition;
-			}
-		}
-		
-		public static function getMachineDataDashboardPosition($userId, $memcached = -1)
-		{
-			global $db;
-			$dashPosition = array();
-			$userId = intval($userId);
-			$query = $db->quoteInto("SELECT dashboardPosVal FROM machineDataDashboardPos WHERE userId = %s", $userId);
-			$res = $db->query($query, $memcached);
-			if($res->num_rows)
-			{
-				$foo = $res->fetch_assoc();
-				$dashPosition = explode('|', $foo['dashboardPosVal']);
-				return $dashPosition;
-			}
-			else
-			{
-				// XXX: IMPORTANT, READ IT - If you increment anything in form_values_en then fix it here as well
-				$dashPosition[0] = 0; $dashPosition[1] = 1; $dashPosition[2] = 2;
-				$dashPosition[3] = 3; $dashPosition[4] = 4; $dashPosition[4] = 5;
-		
-				return $dashPosition;
-			}
-		}
-		
-		public static function getLogDataDashboardPosition($userId, $memcached = -1)
-		{
-			global $db;
-			$dashPosition = array();
-			$userId = intval($userId);
-			$query = $db->quoteInto("SELECT dashboardPosVal FROM logDataDashboardPos WHERE userId = %s", $userId);
-			$res = $db->query($query, $memcached);
-			if($res->num_rows)
-			{
-				$foo = $res->fetch_assoc();
-				$dashPosition = explode('|', $foo['dashboardPosVal']);
-				return $dashPosition;
-			}
-			else
-			{
-				// XXX: IMPORTANT, READ IT - If you increment anything in form_values_en then fix it here as well
-				$dashPosition[0] = 0; $dashPosition[1] = 1; $dashPosition[2] = 2;
-				$dashPosition[3] = 3;
-		
-				return $dashPosition;
-			}
-		}
-
-		public static function rearrangeEmployerDashboard($userId, $QUICK_LINK_COLUMNS = array())
-		{
-			$dashPosition = self::getUserDashboardPosition($userId, -1);
-			$quickLinkColumnsRearrange = array();
 			
-			if(!empty($dashPosition))
-			{
-				foreach($dashPosition as $key => $val)
-				{
-					$rearrange_key = $QUICK_LINK_COLUMNS[$val];
-					$quickLinkColumnsRearrange[0][$rearrange_key] = $rearrange_key;
-				}
-			}
+			$userId = intval($userId);
 			
-			return $quickLinkColumnsRearrange;
-		}
-		
-		public static function rearrangeMachineDataDashboard($userId, $MACHINEDATA_QUICK_LINK = array())
-		{
-			$dashPosition = self::getMachineDataDashboardPosition($userId, -1);
-			
-			$quickLinkColumnsRearrange = array();
-				
-			if(!empty($dashPosition))
-			{
-				foreach($dashPosition as $key => $val)
-				{
-					$rearrange_key = $MACHINEDATA_QUICK_LINK[$val];
-					$quickLinkColumnsRearrange[0][$rearrange_key] = $rearrange_key;
-				}
-			}
-				
-			return $quickLinkColumnsRearrange;
-		}
-		
-		public static function rearrangeLogDataDashboard($userId, $LOGDATA_QUICK_LINK = array())
-		{
-			$dashPosition = self::getLogDataDashboardPosition($userId, -1);
-				
-			$quickLinkColumnsRearrange = array();
-		
-			if(!empty($dashPosition))
-			{
-				foreach($dashPosition as $key => $val)
-				{
-					$rearrange_key = $LOGDATA_QUICK_LINK[$val];
-					$quickLinkColumnsRearrange[0][$rearrange_key] = $rearrange_key;
-				}
-			}
-		
-			return $quickLinkColumnsRearrange;
+			$db->duplicateRemovePrimary('userProfile', array(
+				'userId' => $userId,
+				'isProfileUpdate' => 0,
+				'dateCreated'=>date('Y-m-d H:i:s'),
+				'dateUpdated'=>date('Y-m-d H:i:s')), 'userId'
+			);
 		}
 	}
 ?>

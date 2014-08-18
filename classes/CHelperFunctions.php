@@ -391,6 +391,33 @@
 			}
 			return $aux;
 		}
+		
+		/**
+		 * Stripslashes for multibyte characters
+		 * @param unknown $foo
+		 * @return mixed
+		 */
+		public static function stripslashes2($foo)
+		{
+			if(is_array($foo)) reset($foo);
+			
+			if(is_array($foo))
+			{
+				while (list($k, $v) = each($foo))
+				{
+					$foo[$k] = str_replace("\\\"", "\"", $foo[$k]);
+					$foo[$k] = str_replace("\\'", "'", $foo[$k]);
+					$foo[$k] = str_replace("\\\\", "\\", $foo[$k]);
+				}
+			}
+			else
+			{
+				$foo = str_replace("\\\"", "\"", $foo);
+				$foo = str_replace("\\'", "'", $foo);
+				$foo = str_replace("\\\\", "\\", $foo);
+			}
+			return $foo;
+		}
 
 	 	/**
 		 * Strip punctuation from text.

@@ -7,8 +7,8 @@
 		static $HTTP_PROTOCOL;
 		
 		static $SYSTEM_DOMAIN_VALUES = array(
-			'primaryDomain'			=> "creative.me",
-			'pregPrimaryDomain' 	=> "creative\.me",
+			'primaryDomain'			=> "creative.com",
+			'pregPrimaryDomain' 	=> "creative\.com",
 			'pregGmail'				=> "gmail\.com",
 			'smtpServer'			=> "smtp.gmail.com",
 			'googleSmtpServer'		=> "smtp.gmail.com",
@@ -43,6 +43,8 @@
 			'jpeg'	=> 'Jpeg file',
 			'png'	=> 'PNG file'
 		);
+		
+		static $HOST;
 		
 		// XXX: IMPORTANT - Fixes MAGIC_QUOTES. call from bootstrap.php
 	    static function fixSlashes($foo = '')

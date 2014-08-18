@@ -24,6 +24,8 @@
 			'creative'		=> array('creative', 'root', '123456', 'creative', '3306', NULL),
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
+		
+		CSettings::$HOST = 'local.creative.com';
 	}
 	else if(APPLICATION_ENV === 'staging')
 	{
@@ -31,6 +33,8 @@
 			'creative'		=> array('creative', 'root', '123456', 'creative', '3306', NULL),
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
+		
+		CSettings::$HOST = 'staging.creative.com';
 	}
 	else if(APPLICATION_ENV === 'production')
 	{
@@ -38,6 +42,8 @@
 			'creative'		=> array('creative', 'root', '123456', 'creative', '3306', NULL),
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
+		
+		CSettings::$HOST = 'creative.com';
 	}
 	else
 	{
@@ -60,6 +66,7 @@
 	    . CSettings::$BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'library' . PATH_SEPARATOR
 	    . CSettings::$BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'templates' . PATH_SEPARATOR
 	    . CSettings::$BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'pear' . PATH_SEPARATOR
+		. CSettings::$BASE_DIRECTORY . DIRECTORY_SEPARATOR . 'resources' . PATH_SEPARATOR
 	    . get_include_path()
 	);
 

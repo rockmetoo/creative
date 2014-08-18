@@ -83,9 +83,9 @@
 			global $CREATIVE;
 			global $CREATIVE_SESSION;
 			global $CREATIVE_SYSTEM_DEF;
-			global $mobile_agent;
+			global $mobileAgent;
 			
-			if(!$CREATIVE || ($CREATIVE != $CREATIVE_SESSION && $mobile_agent->isNonMobile()))
+			if(!$CREATIVE || ($CREATIVE != $CREATIVE_SESSION && $mobileAgent->isNonMobile()))
 			{
 				return 0;
 				exit;
@@ -103,21 +103,21 @@
 			return $foo["userId"];
 		}
 
-		public static function sessionLinkUserId($userId = 0, $user_status = 0, $permanent = 0)
+		public static function sessionLinkUserId($userId = 0, $userStatus = 0, $permanent = 0)
 		{
 			global $CREATIVE;
 			global $db;
-			global $mobile_agent;
+			global $mobileAgent;
 			
 			$db->updateOther(
-				'creativeUser', 'systemSession', 'cookie', $CREATIVE, array('userId'=>$userId, 'userStatus'=>$user_status)
+				'creativeUser', 'systemSession', 'cookie', $CREATIVE, array('userId' => $userId, 'userStatus' => $userStatus)
 			);
 			
-			if($mobile_agent->isNonMobile())
+			if($mobileAgent->isNonMobile())
 			{
-				//90 days cookie
+				// 90 days cookie
 				if($permanent) setcookie("CREATIVE_SESSION", $CREATIVE, time() + 7776000, '/');
-				//session cookie
+				// session cookie
 				else setcookie("CREATIVE_SESSION", $CREATIVE, 0, '/');
 			}
 		}
@@ -126,9 +126,9 @@
 		{
 			global $db;
 			global $CREATIVE;
-			global $mobile_agent;
+			global $mobileAgent;
 			
-			if(!$mobile_agent->isNonMobile() && $mobile_agent->getUID())
+			if(!$mobileAgent->isNonMobile() && $mobileAgent->getUID())
 			{
 				$fulldomain = @gethostbyaddr($_SERVER['REMOTE_ADDR']);
    				$domainlist = array_reverse(explode('.', $fulldomain));
@@ -146,7 +146,7 @@
 					$domain = $_SERVER['REMOTE_ADDR'];
 				}
 				
-				$CREATIVE = sprintf('%s %s', $mobile_agent->getUID(), $domain);
+				$CREATIVE = sprintf('%s %s', $mobileAgent->getUID(), $domain);
 			}
 			
 			if($CREATIVE && CDBSession::sessionCheckCookie($CREATIVE))
@@ -200,14 +200,51 @@
 		public static function validateUser($redirect = true)
 		{
 			global $CREATIVE_SYSTEM_DEF;
-			if(!isset($CREATIVE_SYSTEM_DEF["userId"]) || $CREATIVE_SYSTEM_DEF["userId"] == 0)
+			global $db;
+			
+			if(!isset($CREATIVE_SYSTEM_DEF['userId']) || $CREATIVE_SYSTEM_DEF['userId'] == 0)
 			{
 				if(!$redirect) return false;
 				header('location: signin.php?signinto=' . $_SERVER['REQUEST_URI']);
 				exit;
 			}
 			
+			$query	= "SELECT userType FROM user WHERE userId = '" . $CREATIVE_SYSTEM_DEF['userId'] . "'";
+			$res	= $db->queryOther('creativeUser', $query);
+			
+			$foo = $res->fetch_assoc();
+			
+			$CREATIVE_SYSTEM_DEF['userType'] = $foo['userType'];
+			
 			return true;
+		}
+		
+		public static function ifLoggedInThenGoToDashBoarad()
+		{
+			global $CREATIVE_SYSTEM_DEF;
+			
+			// Redirect if already logged in
+			if(
+				(isset($CREATIVE_SYSTEM_DEF['userId']) && $CREATIVE_SYSTEM_DEF['userType'] == 1) &&
+				$CREATIVE_SYSTEM_DEF['userId'] > 0
+			){
+				header('location: userDashboard.php');
+				exit;
+			}
+			else if(
+				(isset($CREATIVE_SYSTEM_DEF['userId']) && $CREATIVE_SYSTEM_DEF['userType'] == 2)
+				&& $CREATIVE_SYSTEM_DEF['userId'] > 0
+			){
+				header('location: expertDashboard.php');
+				exit;
+			}
+			else if(
+				(isset($CREATIVE_SYSTEM_DEF['userId']) && $CREATIVE_SYSTEM_DEF['userId'] == 3)
+				&& $CREATIVE_SYSTEM_DEF['userId'] > 0
+			){
+				header('location: adminDashboard.php');
+				exit;
+			}
 		}
 
 		/* PRIVATE FUNCTIONS */
@@ -224,22 +261,31 @@
 
 	if(isset($_COOKIE["CREATIVE"])) $CREATIVE = $_COOKIE["CREATIVE"];
 	if(isset($_COOKIE["CREATIVE_SESSION"])) $CREATIVE_SESSION = $_COOKIE["CREATIVE_SESSION"];
-	$mobile_agent = Net_UserAgent_Mobile::factory();
+	
+	$mobileAgent = Net_UserAgent_Mobile::factory();
+	
 	CDBSession::sessionSetCookie();
-	$CREATIVE_SYSTEM_DEF = array();
-	$CREATIVE_SYSTEM_DEF["sessionId"] = CDBSession::sessionGetId();
-	$CREATIVE_SYSTEM_DEF["userStatus"] = CDBSession::sessionGetStatus();
-	$CREATIVE_SYSTEM_DEF["cookie"] = $CREATIVE;
-	$CREATIVE_SYSTEM_DEF["userId"] = (int)CDBSession::sessionGetUserId();
-	$foo = CDBSession::getUserName($CREATIVE_SYSTEM_DEF['userId']);
-	$CREATIVE_SYSTEM_DEF["username"] = $foo['username'];
+	
+	$CREATIVE_SYSTEM_DEF				= array();
+	$CREATIVE_SYSTEM_DEF["sessionId"]	= CDBSession::sessionGetId();
+	$CREATIVE_SYSTEM_DEF["userStatus"]	= CDBSession::sessionGetStatus();
+	$CREATIVE_SYSTEM_DEF["cookie"]		= $CREATIVE;
+	$CREATIVE_SYSTEM_DEF["userId"]		= (int)CDBSession::sessionGetUserId();
+	$foo								= CDBSession::getUserName($CREATIVE_SYSTEM_DEF['userId']);
+	$CREATIVE_SYSTEM_DEF["username"]	= $foo['username'];
 
 	// XXX: IMPORTANT - check bootstrap.php
-	$CREATIVE_SYSTEM_DEF["protocol"] = CSettings::$HTTP_PROTOCOL;
-
+	$CREATIVE_SYSTEM_DEF["protocol"]	= CSettings::$HTTP_PROTOCOL;
+	
+	// XXX: IMPORTANT - check bootstrap.php
+	$CREATIVE_SYSTEM_DEF["host"]		= CSettings::$HOST;
+	
 	if(substr($_SERVER['REQUEST_URI'], 0, 4) == '/en/') $CREATIVE_SYSTEM_DEF["lang"] = 'en';
 	else if(substr($_SERVER['REQUEST_URI'], 0, 4) == '/ja/') $CREATIVE_SYSTEM_DEF["lang"] = 'ja';
 	else if(substr($_SERVER['REQUEST_URI'], 0, 4) == '/bn/') $CREATIVE_SYSTEM_DEF["lang"] = 'bn';
 	else $CREATIVE_SYSTEM_DEF["lang"] = 'en';
+	
+	// XXX: initialize 'userType' as null
+	$CREATIVE_SYSTEM_DEF["userType"]	= null;
 	
 ?>
