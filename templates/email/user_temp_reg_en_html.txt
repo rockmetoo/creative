@@ -1,0 +1,14 @@
+Dear {{username}},<br/>
+
+<p>
+We are glad to see you in Creative. Please, click the following link or
+copy-paste to your favourite browser and confirm your registration
+process with Creative:
+</p>
+<a target="_blank" href="{{hashlink}}">{{hashlink}}</a>
+<p>
+Please, note that, if you don't access to the above URL within 48 hours
+after receiving this mail, your registration process will be invalidated.
+</p><br/>
+Sincerely yours,<br/>
+Creative<br/><br/>

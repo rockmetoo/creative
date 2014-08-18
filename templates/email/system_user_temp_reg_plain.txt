@@ -1,0 +1,14 @@
+Dear Administrator,
+
+A new user registration request is submitted
+
+Check this out:
+----------------
+Username: {{username}}
+Hash: {{hash}}
+Referer: {{HTTP_REFERER}}
+Remote Address: {{REMOTE_ADDR}}
+Browser Info: {{HTTP_USER_AGENT}}
+
+Cheers,
+IT God of Creative
