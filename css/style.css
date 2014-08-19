@@ -293,6 +293,21 @@ body
 	background:none repeat scroll 0 0 #FFFFFF;
 }
 
+#mainContainer #about
+{
+    clear:both;
+    color:#6E6E6E;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-size:12px;
+    line-height:18px;
+    margin-bottom:5px;
+    padding-bottom:0px;
+    padding-top:0;
+    text-align:center;
+    width:100%;
+    background:none repeat scroll 0 0 #FFFFFF;
+}
+
 .form_row{ clear:both; }
 
 .form_col_label{
@@ -856,7 +871,7 @@ input.quick_keyword_text{
 .anyPageCol1Container .content li a
 {
 	color:#3B3B3B;
-	font-size:110%;
+	font-size:12px;
 	cursor:pointer;
 	text-decoration:none;
 }

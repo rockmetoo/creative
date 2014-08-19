@@ -15,10 +15,11 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a style="font-weight: bold">Create Question</a></li>
-						<li><a style="font-weight: bold">Edit Question</a></li>
-						<li><a style="font-weight: bold">Advance Question Search</a></li>
-						<li><a style="font-weight: bold">My Report</a></li>
+						<li><a href="profile.php">Profile</a></li>
+						<li><a href="createQuestion.php">Create Question</a></li>
+						<li><a href="advanceQuestionSearch.php">Advance Question Search</a></li>
+						<li><a href="myQuestion.php">My Question</a></li>
+						<li><a href="myReport.php">My Report</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -40,8 +41,9 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a style="font-weight: bold">Advance Search</a></li>
-						<li><a style="font-weight: bold">My Report</a></li>
+						<li><a href="profile.php">Profile</a></li>
+						<li><a>Advance Search</a></li>
+						<li><a>My Report</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -63,8 +65,9 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a style="font-weight: bold">Search User</a></li>
-						<li><a style="font-weight: bold">Search Question</a></li>
+						<li><a href="profile.php">Profile</a></li>
+						<li><a>Search User</a></li>
+						<li><a>Search Question</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>

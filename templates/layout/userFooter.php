@@ -1,4 +1,8 @@
 <?php ?>
+			<div id="about">
+				<a href="about.php" style="text-decoration: none;color:#6E6E6E;">About</a>&nbsp;|&nbsp;
+				<a style="text-decoration: none;color:#6E6E6E;" href="contact.php">Contact Us</a>
+			</div>
 <!-- footer -->
 	    	<div id="footer">
 	    		<p style="margin: 0em;">
