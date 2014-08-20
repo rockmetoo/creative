@@ -64,12 +64,12 @@
 			    	<div class="clear"></div>
 				</div>
 			</div>
-		<div style="padding-left:280px">
-			<form name="searchQuestionForm" method="post" action="searchQuestion.php" target="_self">
-				<input type="text" name="searchQuestion" class="searchQuestionTextBox" />&nbsp;&nbsp;
-				<button name="submit" id="submit" type="submit" class="registerBlack" style="margin-top:3px">&nbsp;Search Question&nbsp;</button>
-			</form>
-		</div>
+			<div style="padding-left:35%">
+				<form name="searchQuestionForm" method="post" action="searchQuestion.php" target="_self">
+					<input type="text" name="searchQuestion" class="searchQuestionTextBox" />&nbsp;&nbsp;
+					<button name="submit" id="submit" type="submit" class="registerBlack" style="margin-top:3px">&nbsp;Search Question&nbsp;</button>
+				</form>
+			</div>
 			<div class="formFullContent">
 				<div class="formHolder">
 					<div class="formLeftContent">

@@ -48,9 +48,10 @@
 		public static function setUserBasicProfile($userId, $changes, $updateChangesOnly = false)
 		{
 			global $db;
+			
 			$userId = intval($userId);
 			
-			if(empty($changes['firstName']) || empty($changes['primaryEmail']))
+			if(empty($changes['firstName']) || empty($changes['lastName']) || empty($changes['country']))
 			{
 				$changes['isProfileUpdate'] = 0;
 			}
@@ -63,17 +64,10 @@
 			$changes = array_intersect_key($changes, array_flip(array(
 				'firstName',
 				'lastName',
-				'companyName',
-				'primaryEmail',
-				'telePhone',
-				'mobilePhone',
-				'fax',
-				'address_1',
-				'address_2',
-				'countryId',
-				'stateId',
-				'cityId',
-				'postcode',
+				'postCode',
+				'cityOrDistrict',
+				'stateOrDivision',
+				'address',
 				'isProfileUpdate',
 				'dateCreated',
 				'dateUpdated'
@@ -83,6 +77,7 @@
 			{
 				// remove changes that do not need updating.
 				$user = CDBUser::getUserDetails($userId);
+				
 				if(count($user))
 				{
 					foreach($changes as $k=>$v)

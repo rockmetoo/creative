@@ -15,7 +15,8 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a href="profile.php">Profile</a></li>
+						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
+						<li><a href="changePassword.php">Change Password</a></li>
 						<li><a href="createQuestion.php">Create Question</a></li>
 						<li><a href="advanceQuestionSearch.php">Advance Question Search</a></li>
 						<li><a href="myQuestion.php">My Question</a></li>
@@ -42,6 +43,7 @@
 				<div class="content">
 					<ul>
 						<li><a href="profile.php">Profile</a></li>
+						<li><a href="changePassword.php">Change Password</a></li>
 						<li><a>Advance Search</a></li>
 						<li><a>My Report</a></li>
 					</ul>
@@ -66,6 +68,7 @@
 				<div class="content">
 					<ul>
 						<li><a href="profile.php">Profile</a></li>
+						<li><a href="changePassword.php">Change Password</a></li>
 						<li><a>Search User</a></li>
 						<li><a>Search Question</a></li>
 					</ul>

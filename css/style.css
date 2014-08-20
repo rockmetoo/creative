@@ -1728,7 +1728,7 @@ a.language_name{
 {
 	float:left;
 	clear:left;
-	width:50%;
+	width:45%;
 	margin-top: 5px;
 }
 
@@ -1736,14 +1736,14 @@ a.language_name{
 {
 	float:right;
 	clear:right;
-	width:50%;
+	width:45%;
 	margin-top: 5px;
 }
 
 .loginFormContainer .formRowFull
 {
 	float:left;
-	width:100%;
+	width:90%;
 	margin-top: 5px;
 }
 
@@ -1991,7 +1991,7 @@ a.language_name{
 
 .indexSearchQuestion
 {
-	padding-left: 256px;
+	padding-left: 31%;
 }
 
 .searchQuestionTextBox
