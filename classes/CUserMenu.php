@@ -16,11 +16,11 @@
 				<div class="content">
 					<ul>
 						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
-						<li><a href="changePassword.php">Change Password</a></li>
-						<li><a href="createQuestion.php">Create Question</a></li>
-						<li><a href="advanceQuestionSearch.php">Advance Question Search</a></li>
-						<li><a href="myQuestion.php">My Question</a></li>
-						<li><a href="myReport.php">My Report</a></li>
+						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
+						<li><a href="createQuestion.php" style="<?php echo ($selected==3) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Create Question</a></li>
+						<li><a href="advanceQuestionSearch.php" style="<?php echo ($selected==4) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Advance Question Search</a></li>
+						<li><a href="myQuestion.php" style="<?php echo ($selected==5) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Question</a></li>
+						<li><a href="myReport.php" style="<?php echo ($selected==6) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Report</a></li>
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -42,8 +42,8 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a href="profile.php">Profile</a></li>
-						<li><a href="changePassword.php">Change Password</a></li>
+						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
+						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
 						<li><a>Advance Search</a></li>
 						<li><a>My Report</a></li>
 					</ul>
@@ -67,8 +67,8 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
-						<li><a href="profile.php">Profile</a></li>
-						<li><a href="changePassword.php">Change Password</a></li>
+						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
+						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
 						<li><a>Search User</a></li>
 						<li><a>Search Question</a></li>
 					</ul>

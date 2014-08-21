@@ -47,30 +47,36 @@
 		public static function getPassword($userId)
 		{
 			global $db;
-			$userId=intval($userId);
-			$query = $db->quoteInto("SELECT password FROM user WHERE userId = %s", $userId);
-			$res = $db->queryOther('creativeUser', $query);
+			
+			$userId	= intval($userId);
+			$query	= $db->quoteInto("SELECT password FROM user WHERE userId = %s", $userId);
+			$res	= $db->queryOther('creativeUser', $query);
+			
 			if(!$res->num_rows)
 			{
 				return 0;
 			}
 			
 			$foo = $res->fetch_assoc();
+			
 			return $foo['password'];
 		}
 
 		public static function getStatus($userId)
 		{
 			global $db;
-			$userId=intval($userId);
-			$query = $db->quoteInto("SELECT userStatus FROM user WHERE userId=%s", $userId);
-			$res = $db->queryOther('creativeUser', $query);
+			
+			$userId	= intval($userId);
+			$query	= $db->quoteInto("SELECT userStatus FROM user WHERE userId=%s", $userId);
+			$res	= $db->queryOther('creativeUser', $query);
+			
 			if(!$res->num_rows)
 			{
 				return 0;
 			}
 			
 			$foo = $res->fetch_assoc();
+			
 			return $foo['userStatus'];
 		}
 		

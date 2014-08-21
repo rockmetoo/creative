@@ -104,50 +104,52 @@
 			return $userId;
 		}
 		
-		public static function setPassword($old_password, $new_password, $re_new_password)
+		public static function setPassword($oldPassword, $newPassword, $reNewPassword)
 		{
 			global $db;
-			global $COCKPIT_SYSTEM_DEF;
+			global $CREATIVE_SYSTEM_DEF;
 			
-			if($new_password === $re_new_password)
+			if($newPassword === $reNewPassword)
 			{
-				include_once 'CDBLogin.php';
+				include_once 'CDBSignIn.php';
 				
-				$password = CDBLogin::getPassword($COCKPIT_SYSTEM_DEF['userId']);
-				if(md5($old_password) === $password)
+				$password = CDBSignIn::getPassword($CREATIVE_SYSTEM_DEF['userId']);
+				
+				if(md5($oldPassword) === $password)
 				{
-					$db->updateOther('siteUser', 'user', 'userId', $COCKPIT_SYSTEM_DEF['userId'],
+					$db->updateOther('creativeUser', 'user', 'userId', $CREATIVE_SYSTEM_DEF['userId'],
 						array(
-							'password' => md5($new_password),
-							'lastChangedPassword'=>date('Y-m-d H:i:s')
+							'password' => md5($newPassword),
+							'lastChangedPassword' => date('Y-m-d H:i:s')
 						)
 					);
+					
 					return array(1, "New password successfully changed. Hurray...");
 				}
 				else
 				{
-					return array(0, "Old password not matched!!!");
+					return array(0, "Old password not matched!");
 				}
 			}
 			else
 			{
-				return array(0, "New password and Re-type new password are not same!!!");
+				return array(0, "New password and Re-type new password are not same!");
 			}
 		}
 		
 		public static function setSpecificUserSettings($userid, $user_status)
 		{
 			global $db;
-			global $COCKPIT_SYSTEM_DEF;
+			global $CREATIVE_SYSTEM_DEF;
 			
 			if($user_status === 1)
 			{
-				$db->updateOther('siteUser', 'user', 'userId', $userid,
+				$db->updateOther('creativeUser', 'user', 'userId', $userid,
 					array(
 						'userStatus' => $user_status,
 						'failedLoginCount' => 0,
 						'deactivatedDate' => date('Y-m-d H:i:s'),
-						'deactivatedBy' => $COCKPIT_SYSTEM_DEF['userId'],
+						'deactivatedBy' => $CREATIVE_SYSTEM_DEF['userId'],
 						'userStatusChangeDate' => date('Y-m-d H:i:s'),
 						'dateUpdated' => date('Y-m-d H:i:s')
 					)
@@ -157,17 +159,17 @@
 			// If inactive then also remove session data immidiately
 			if($user_status === 3)
 			{
-				$db->updateOther('siteUser', 'user', 'userId', $userid,
+				$db->updateOther('creativeUser', 'user', 'userId', $userid,
 					array(
 						'userStatus' => $user_status,
 						'deactivatedDate' => date('Y-m-d H:i:s'),
-						'deactivatedBy' => $COCKPIT_SYSTEM_DEF['userId'],
+						'deactivatedBy' => $CREATIVE_SYSTEM_DEF['userId'],
 						'userStatusChangeDate' => date('Y-m-d H:i:s'),
 						'dateUpdated' => date('Y-m-d H:i:s')
 					)
 				);
 				
-				$db->updateOther('siteUser', 'systemSession', 'userId', $userid,
+				$db->updateOther('creativeUser', 'systemSession', 'userId', $userid,
 					array(
 						'userStatus'	=> $user_status,
 						'userId'		=> 0

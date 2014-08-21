@@ -32,16 +32,16 @@
 		$(document).ready(function()
 		{
 			var options = {
-				capsLockDiv_on: function(){
+				caps_lock_on: function(){
 					var alertMessage = "<span id=\'capslock\'>' . $lang->get('capslock on') . '</span>";
 					$("#capsLockDiv").html(alertMessage);
 					$("#capsLockDiv").fadeIn("slow");
 				},
-				capsLockDiv_off: function(){
+				caps_lock_off: function(){
 					$("#capsLockDiv").text("");
 					$("#capsLockDiv").fadeOut("slow");
 				},
-				capsLockDiv_undetermined: function(){
+				caps_lock_undetermined: function(){
 					$("#capsLockDiv").text("");
 					$("#capsLockDiv").fadeOut("slow");
 				},
