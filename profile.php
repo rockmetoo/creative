@@ -69,16 +69,16 @@
 									echo
 										'<div class="success contentNotice transparent">
 											<img src="../images/successful.png"></img>'. $processor->error_msg .'
+										</div>
 										';
-									echo '</div>';
 								}
 								else if($processor->error_no === 0)
 								{
 									echo
 										'<div class="error contentNotice transparent">
 											<img src="../images/unsuccessful.png"></img>'. $processor->error_msg .'
+										</div>
 										';
-									echo '</div>';
 								}
 							
 								// Output form

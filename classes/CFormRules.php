@@ -118,6 +118,15 @@
 			else{ return true; }
 		}
 
+		public static function checkNumberOfQuestion($value, $params)
+		{
+			if(!self::isNumeric($value)) return false;
+			
+			if($value > 32 || $value < 1) return false;
+			
+			return true;
+		}
+		
 		public static function validXML($value, $params=array())
 		{
 			return CXML::isValid($value);

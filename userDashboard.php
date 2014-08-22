@@ -17,6 +17,9 @@
 	{
 		// XXX: IMPORTANT - get user profile information
 		$CREATIVE_USER_DEF = CDBUser::getUserDetails($CREATIVE_SYSTEM_DEF['userId']);
+		
+		// XXX: IMPORTANT - get some question activities
+		$questionStatus = CDBUser::getUserQuestionStatus();
 	}
 	else if($CREATIVE_SYSTEM_DEF['userType'] == 2)
 	{
@@ -79,22 +82,15 @@
 					<div class="formRightContent">
 						<h2><span>&nbsp;</span></h2>
 						<div class="formRightContentHolder">
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
-							Hurrah! I am logged in as USER<br/>
+							<?php
+								if(!$questionStatus)
+								{
+									echo
+										'<div class="success contentNotice transparent" style="width:90%;margin-left:4%;margin-top:10px;margin-bottom:10px;">
+											You don\'t have enough activities to show. Please create some questions or answer some.
+										</div>';
+								}
+							?>
 						</div>
 					</div>
 				</div>

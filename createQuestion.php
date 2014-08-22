@@ -16,52 +16,26 @@
 	// XXX: IMPORTANT - get user profile information
 	$CREATIVE_USER_DEF = CDBUser::getUserDetails($CREATIVE_SYSTEM_DEF['userId']);
 	
+	// XXX: IMPORTANT - check this page only access by 'user' type
+	CDBUser::onlyAccessByUser();
+	
 	include_once 'CFormValidator.php';
 	include_once 'CHelperFunctions.php';
 	include_once 'formValues' . $CREATIVE_SYSTEM_DEF['lang'] . '.php';
 	include_once 'CLocalization.php';
 	
-	$lang = new CLocalization($CREATIVE_SYSTEM_DEF['lang'], 'changePassword.php');
+	$lang = new CLocalization($CREATIVE_SYSTEM_DEF['lang'], 'createQuestion.php');
 	
-	$title = 'Update password';
-
+	$title = 'Create a question';
+	
 	// Include the form
-	include('forms/changePassword.php');
+	include('forms/createQuestion.php');
 	
-	$JS_FILES	= array('capslock.jquery.js');
 	$CSS_FILES	= array('style.css' => 'all');
-	$JS_STRING	=
-		'
-		$(document).ready(function()
-		{
-			var options = {
-				caps_lock_on: function()
-				{
-					var alertMessage = "<span id=\'capslock\'>CapsLock key pressed</span>";
-					$("#capsLockDiv").text("CapsLock Key Pressed");
-					$("#capsLockDiv").fadeIn("slow");
-				},
-				caps_lock_off: function()
-				{
-					$("#capsLockDiv").text("");
-					$("#capsLockDiv").fadeOut("slow");
-				},
-				caps_lock_undetermined: function()
-				{
-					$("#capsLockDiv").text("");
-					$("#capsLockDiv").fadeOut("slow");
-				},
-				debug: true
-			};
-			$("#oldPassword").capslock(options);
-			$("#newPassword").capslock(options);
-			$("#reNewPassword").capslock(options);
-		});
-		';
+	$JS_STRING	= '';
 	
 	$username	= CDBUser::getSignInAs();
 	$template->getTemplate('layout/userHeader.php');
-	
 ?>
 	<div id="mainContainer">
 		<div id="content">
@@ -84,32 +58,14 @@
 			<div class="formFullContent">
 				<div class="formHolder">
 					<div class="formLeftContent">
-						<?php echo CUserMenu::userQuickLinkInLeftSide($lang, 2); ?>
+						<?php echo CUserMenu::userQuickLinkInLeftSide($lang, 3); ?>
 						<div class="clear5"></div>
 					</div>
 					<div class="formRightContent">
 						<h2><span>&nbsp;</span></h2>
 						<div class="formRightContentHolder">
 							<?php
-								//After Form Submission if any error/success occured from Daemon
-								if($processor->error_no === 1)
-								{
-									echo
-										'<div class="success contentNotice transparent">
-											<img src="../images/successful.png"></img>'. $processor->error_msg .'
-										';
-									echo '</div>';
-								}
-								else if($processor->error_no === 0)
-								{
-									echo
-										'<div class="error contentNotice transparent">
-											<img src="../images/unsuccessful.png"></img>'. $processor->error_msg .'
-										';
-									echo '</div>';
-								}
-								
-								//Output form
+								// Output form
 								$processor->display();
 							?>
 						</div>

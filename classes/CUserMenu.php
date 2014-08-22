@@ -15,6 +15,7 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
+						<li><a href="userDashboard.php" style="<?php echo ($selected==0) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Dashboard</a></li>
 						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
 						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
 						<li><a href="createQuestion.php" style="<?php echo ($selected==3) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Create Question</a></li>
@@ -42,6 +43,7 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
+						<li><a href="expertDashboard.php" style="<?php echo ($selected==0) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Dashboard</a></li>
 						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
 						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
 						<li><a>Advance Search</a></li>
@@ -67,6 +69,7 @@
 				<div class="anyPageCol1ContainerTopBorder"></div>
 				<div class="content">
 					<ul>
+						<li><a href="adminDashboard.php" style="<?php echo ($selected==0) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Dashboard</a></li>
 						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
 						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
 						<li><a>Search User</a></li>

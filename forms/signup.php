@@ -4,10 +4,10 @@
 	
 	include_once 'form/Form.php';
 	
-	$form_contents = new Form("signup");
-	$form_contents->configure(array("action" => "signup.php", "method" => "post"));
+	$formContents = new Form("signup");
+	$formContents->configure(array("action" => "signup.php", "method" => "post"));
 	
-	$form_contents->addElement(
+	$formContents->addElement(
 		new Element_HTMLExternal(
 			'
 			<errormsg for="captchaText" name="captchaText">' . $lang->get('captcha not match') . '</errormsg>
@@ -18,7 +18,7 @@
 		)
 	);
 	
-	$form_contents->addElement(
+	$formContents->addElement(
 		new Element_Textbox(
 			 'Email:', 'primaryEmail', 'full'
 			, array(
@@ -30,7 +30,7 @@
 		)
 	);
 	
-	$form_contents->addElement(
+	$formContents->addElement(
 		new Element_Password(
 			'Password:', 'password', 'full'
 			, array(
@@ -41,7 +41,7 @@
 		)
 	);
 	
-	$form_contents->addElement(
+	$formContents->addElement(
 		new Element_Password(
 			"Re-enter Password:", "repeatPassword", "full"
 			, array(
@@ -52,7 +52,7 @@
 		)
 	);
 	
-	$form_contents->addElement(
+	$formContents->addElement(
 		new Element_HTMLExternal(
 			'<div class="form_row_left">
         		<label for="captcha" class="form_col_label required"></label>
@@ -90,9 +90,9 @@
 		)
 	);
 	
-	$form_contents->addElement(new Element_HTMLExternal("</div></fieldset>"));
+	$formContents->addElement(new Element_HTMLExternal("</div></fieldset>"));
 	$form = '<div class="loginFormContainer">';
-	$form .= $form_contents->render(true);
+	$form .= $formContents->render(true);
 	$form .= '</div>';
 
 	if(isset($_POST['submit']))

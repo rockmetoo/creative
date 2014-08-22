@@ -299,7 +299,7 @@
 		{
 			global $CREATIVE_SYSTEM_DEF;
 			
-			$this->lang = new CLocalization($CREATIVE_SYSTEM_DEF['lang'], 'formValidator.php');
+			$this->lang = new CLocalization($CREATIVE_SYSTEM_DEF['lang'], 'CFormValidator.php');
 			$this->_email = CSettings::$SYSTEM_MAIL_VALUES['tech'];
 			$this->_entities = array_merge($this->_entities, $entities);
 			$this->_form_ml = trim($form_ml);
@@ -799,22 +799,24 @@
 			ob_end_clean();
 
 			$text = '';
+			
 			foreach(explode("\n", $this->_form_ml) as $line_num=>$line)
 			{
 				if($line_num > $error_line_num - 10 && $line_num < $error_line_num + 10)
 					$text .= $line_num+1 . ":\t" . $line . "\n";
 			}
-			$tmpl_vars = array(
+			
+			$tmplVars = array(
 				'debug' => $vars,
 				'xml' => $text,
 				'error' => sprintf('%s on line %d', $error_string, $error_line_num)
 			);
 			
-			$plain = CMail::prepareTemplate('form_parsing_error_en', $tmpl_vars, 0, 'no');
+			$plain = CMail::prepareBody('form_parsing_error_en', $tmplVars, 0, 'en');
 			
 			CMail::send(
-				array(CSettings::$SYSTEM_MAIL_VALUES['support'], 'Form Validator Engine'), $this->_email
-				, $this->_email_subject, $plain
+				array(CSettings::$SYSTEM_MAIL_VALUES['support'], 'Form Validator Engine', CSettings::$SYSTEM_MAIL_PASSWORD['support']),
+				$this->_email, $this->_email_subject, $plain
 			);
 
 			//replace form contents with error message.
@@ -1024,6 +1026,10 @@
 						
 						case 'checkCellPhone':
 							$element['rules'][$k]['callback'] = 'this:checkCellPhone';
+							break;
+							
+						case 'checkNumberOfQuestion':
+							$element['rules'][$k]['callback'] = 'this:checkNumberOfQuestion';
 							break;
 					}
 				}

@@ -37,6 +37,13 @@
 			return $foo['userType'];
 		}
 		
+		public static function getUserQuestionStatus()
+		{
+			global $db;
+			
+			return false;
+		}
+		
 		/**
 		 * Sets employer details
 		 *
@@ -209,6 +216,26 @@
 			$username = self::getUserName($CREATIVE_SYSTEM_DEF['userId']);
 			
 			return ($username == ' ') ? $CREATIVE_SYSTEM_DEF['username'] : $username;
+		}
+		
+		public static function onlyAccessByUser()
+		{
+			global $CREATIVE_SYSTEM_DEF;
+			
+			if($CREATIVE_SYSTEM_DEF['userType'] == 1)
+			{
+				// Don't do anything
+			}
+			else if($CREATIVE_SYSTEM_DEF['userType'] == 2)
+			{
+				header('location: expertDashboard.php');
+				exit;
+			}
+			else if($CREATIVE_SYSTEM_DEF['userType'] == 3)
+			{
+				header('location: adminDashboard.php');
+				exit;
+			}
 		}
 		
 		public static function setUserProfile($userId)
