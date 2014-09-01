@@ -619,4 +619,50 @@
 			
 			return $j;
 		}
+		
+		public static function parseAnswer($answer)
+		{
+			$answer = trim($answer);
+				
+			if(preg_match("/{{([^}]*)}}/", $answer, $matches))
+			{
+				// comma seperated
+				$selectiveAnswers = $matches[1];
+			
+				$arrayOfAnswers		= explode(',', $selectiveAnswers);
+				$numberOfAnswers	= count($arrayOfAnswers);
+			
+				if($numberOfAnswers < 1)
+				{
+					return array(0, $answer, false);
+				}
+				else
+				{
+					$isAnswerExist	= false;
+					$selective		= array();
+					
+					for($i=0; $i<$numberOfAnswers; $i++)
+					{
+						$arrayOfAnswers[$i]	= trim($arrayOfAnswers[$i]);
+						$selective["$i"]	= $arrayOfAnswers[$i];
+						
+						if(preg_match("/\[([^}]*)\]/", $arrayOfAnswers[$i], $matches))
+						{
+							$isAnswerExist		= true;
+							$answer				= $i;
+							$selective["$i"]	= trim($matches[1]);
+						}
+					}
+					
+					if($isAnswerExist)
+					{
+						return array(1, $answer, $selective);
+					}
+						
+					return array(0, $answer, false);
+				}
+			}
+			
+			return array(0, $answer, false);
+		}
 	}

@@ -75,37 +75,25 @@
 				// set up for first page
 				$(id + '_nav .multipage_back').hide();
 				$(id + '_nav .multipage_next').show();
-				if (settings.pages[page].title) {
-					$(id + '_nav .multipage_next').html('Next: ' + settings.pages[page].title);
-				} else {
-					$(id + '_nav .multipage_next').html('Next');
-				}
+				
+				$(id + '_nav .multipage_next').html('Next Question');
 
 			} else if (page==settings.pages.length) { 
 				// set up for last page
 				$(id + '_nav .multipage_back').show();
-				$(id + '_nav .multipage_next').show();
+				$(id + '_nav .multipage_next').hide();
 
-				if (settings.pages[page-2].title) { 
-					$(id + '_nav .multipage_back').html('Back: ' + settings.pages[page-2].title);
-				} else {
-					$(id + '_nav .multipage_back').html('Back');				
-				}
+				
+				$(id + '_nav .multipage_back').html('Previous Question');
 
-				$(id + '_nav .multipage_next').addClass('submit');				
-				$(id + '_nav .multipage_next').html(settings.submitLabel);				
+				//$(id + '_nav .multipage_next').addClass('submit');				
+				//$(id + '_nav .multipage_next').html(settings.submitLabel);				
 				
 			} else {
-				if (settings.pages[page-2].title) { 
-					$(id + '_nav .multipage_back').html('Back: ' + settings.pages[page-2].title);
-				} else {
-					$(id + '_nav .multipage_back').html('Back');				
-				}
-				if (settings.pages[page].title) {
-					$(id + '_nav .multipage_next').html('Next: ' + settings.pages[page].title);
-				} else {
-					$(id + '_nav .multipage_next').html('Next');
-				}
+				
+				$(id + '_nav .multipage_back').html('Previous Question');				
+				
+				$(id + '_nav .multipage_next').html('Next Question');
 
 				$(id + '_nav .multipage_back').show();
 				$(id + '_nav .multipage_next').show();				

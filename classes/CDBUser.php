@@ -1,6 +1,7 @@
 <?php
 
 	include_once 'CDBQuery.php';
+	include_once 'CDBMongo.php';
 	include_once 'CSettings.php';
 	include_once 'CHelperFunctions.php';
 
@@ -39,9 +40,80 @@
 		
 		public static function getUserQuestionStatus()
 		{
-			global $db;
+			global $mongo;
+			global $CREATIVE_SYSTEM_DEF;
+			global $CLASS_GRADE;
+			global $CLASS_SUBJECT;
+			
+			$cond	= array('userId' => $CREATIVE_SYSTEM_DEF['userId']);
+			$cursor = $mongo->getAllData('creative', 'questionsOnHold', $cond);
+			
+			if($cursor->count())
+			{
+				$html = '<ul class="dashboardPostingUL">';
+				
+				foreach($cursor as $data)
+				{
+					$html .= '<li><a href="onholdQuestionDetails.php?id=' . $data['_id'] . '">Grade: ' . $CLASS_GRADE[$data['grade']] .
+					', Subject: ' . $CLASS_SUBJECT[$data['subject']] . ' <i class="onHold">hold</i><br/><span class="subtxt">Number of Questions: ' .
+					$data['numberOfQuestion'] . '</span></a></li>';
+				}
+				
+				$html .= '</ul>';
+				
+				return $html;
+			}
 			
 			return false;
+		}
+		
+		public static function searchUserForAdmin($post)
+		{
+		    global $db;
+		    global $CREATIVE_SYSTEM_DEF;
+		    
+		    $query	= 'SELECT * FROM userProfile WHERE firstName LIKE "%' . $post['firstName'] . '%" OR lastName LIKE "%' . $post['lastName'] . '%"';
+		    $res	= $db->queryOther('creative', $query);
+		    
+		    $searchResultHtml = '';
+		    
+		    if(!$res->num_rows)
+		    {
+		        return $searchResultHtml;
+		    }
+		    
+		    $i = 0;
+		    
+		    $searchResultHtml .= '<div style="width:92%;margin-left:22px">';
+		    
+		    while($foo = $res->fetch_assoc())
+		    {
+		        $i++;
+		        
+		        $userType = self::getUserType($foo['userId']);
+		        
+		        if($userType == 1) $userType = 'User';
+		        else if($userType == 2) $userType = 'Expert';
+		        else if($userType == 3) $userType = 'Admin';
+		        
+		        if($i % 2 == 0)
+		        {
+		            $searchResultHtml .= '<div style="float:right">
+		            <a href="showUserProfileForAdmin.php?id=' . $foo['userId'] . '">' . $foo['firstName'] . ' ' . $foo['lastName'] . '</a><br/>
+		            User Type: '. $userType .'
+		            </div><br/>';
+		        }
+		        else
+		        {
+		            $searchResultHtml .= '<div style="float:left">
+		            <a href="showUserProfileForAdmin.php?id=' . $foo['userId'] . '">' . $foo['firstName'] . ' ' . $foo['lastName'] . '</a><br/>
+		            User Type: ' . $userType . '
+		            </div>';
+		        }
+		    }
+		    
+		    $searchResultHtml .= '</div>';
+		    return $searchResultHtml;
 		}
 		
 		/**
@@ -75,6 +147,7 @@
 				'cityOrDistrict',
 				'stateOrDivision',
 				'address',
+			    'profilePicture',
 				'isProfileUpdate',
 				'dateCreated',
 				'dateUpdated'
@@ -236,6 +309,22 @@
 				header('location: adminDashboard.php');
 				exit;
 			}
+		}
+		
+		public static function onlyAccessByAdmin()
+		{
+		    global $CREATIVE_SYSTEM_DEF;
+		    	
+		    if($CREATIVE_SYSTEM_DEF['userType'] == 1)
+		    {
+		        header('location: userDashboard.php');
+		        exit;
+		    }
+		    else if($CREATIVE_SYSTEM_DEF['userType'] == 2)
+		    {
+		        header('location: expertDashboard.php');
+		        exit;
+		    }
 		}
 		
 		public static function setUserProfile($userId)

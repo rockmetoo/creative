@@ -34,6 +34,9 @@
 		// mysql connection. Initialize it in bootstrap.php
 		static $MYSQL_CONNECTION_POOL			= array();
 		
+		// initialize it in bootstrap.php
+		static $MONGO_CONNECTION_POOL			= array();
+		
 		// XXX: 1 for google, 2 for local mail server. Initialize it in bootstrap.php
 		static $MAILER_SELECT;
 		

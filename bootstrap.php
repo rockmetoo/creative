@@ -25,6 +25,11 @@
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
 		
+		// host, port, user, password, db, persistence, connectionObject
+		CSettings::$MONGO_CONNECTION_POOL = array(
+			'creative' => array('127.0.0.1', '27017', '', '', 'creative', false, NULL),
+		);
+		
 		CSettings::$HOST = 'local.creative.com';
 	}
 	else if(APPLICATION_ENV === 'staging')
@@ -32,6 +37,11 @@
 		CSettings::$MYSQL_CONNECTION_POOL = array(
 			'creative'		=> array('creative', 'root', '123456', 'creative', '3306', NULL),
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
+		);
+		
+		// host, port, user, password, db, persistence, connectionObject
+		CSettings::$MONGO_CONNECTION_POOL = array(
+			'creative' => array('127.0.0.1', '27017', '', '', 'creative', false, NULL),
 		);
 		
 		CSettings::$HOST = 'staging.creative.com';
@@ -43,6 +53,11 @@
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
 		
+		// host, port, user, password, db, persistence, connectionObject
+		CSettings::$MONGO_CONNECTION_POOL = array(
+			'creative' => array('127.0.0.1', '27017', '', '', 'creative', false, NULL),
+		);
+		
 		CSettings::$HOST = 'creative.com';
 	}
 	else
@@ -51,6 +66,13 @@
 			'creative'		=> array('creative', 'root', '123456', 'creative', '3306', NULL),
 			'creativeUser'	=> array('creativeUser', 'root', '123456', 'creativeUser', '3306', NULL),
 		);
+		
+		// host, port, user, password, db, persistence, connectionObject
+		CSettings::$MONGO_CONNECTION_POOL = array(
+			'creative' => array('127.0.0.1', '27017', '', '', 'creative', false, NULL),
+		);
+		
+		CSettings::$HOST = 'local.creative.com';
 	}
 	
 	// XXX: base directory config

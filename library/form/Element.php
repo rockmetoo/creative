@@ -56,8 +56,8 @@
 	
 		public function getID()
 		{
-			if(!empty($this->attributes["id"])) return $this->attributes["id"];
-			else return "";
+			if(!empty($this->attributes['id'])) return $this->attributes['id'];
+			else return '';
 		}
 	
 		/*If an element requires external javascript file, this method is used to return an
@@ -84,8 +84,8 @@
 	
 		public function getName()
 		{
-			if(!empty($this->attributes["name"])) return $this->attributes["name"];
-			else return "";
+			if(!empty($this->attributes['name'])) return $this->attributes['name'];
+			else return '';
 		}
 	
 		/*This method provides a shortcut for checking if an element is required.*/
@@ -112,9 +112,9 @@
 				if(!empty($this->label))
 				{
 					$element = $this->label;
-					if(substr($element, -1) == ":") $element = substr($element, 0, -1);
+					if(substr($element, -1) == ':') $element = substr($element, 0, -1);
 				}
-				else $element = $this->attributes["name"];
+				else $element = $this->attributes['name'];
 	
 				foreach($this->validation as $validation)
 				{
@@ -129,36 +129,6 @@
 			}
 			
 			return $valid;
-		}
-	
-		/*If an element requires jQuery, this method is used to include a section of javascript
-		that will be applied within the jQuery(document).ready(function() {}); section after the
-		form has been rendered.*/
-		public function jQueryDocumentReady()
-		{
-			
-		}
-	
-		/*Elements that have the jQueryOptions property included (Date, Sort, Checksort, and Color)
-		can make use of this method to render out the element's appropriate jQuery options.*/
-		public function jQueryOptions()
-		{
-			if(!empty($this->jQueryOptions))
-			{
-	            $options = "";
-	            foreach($this->jQueryOptions as $option => $value)
-	            {
-	                if(!empty($options)) $options .= ", ";
-	                
-	                $options .= $option . ': ';
-	                
-					/*When javascript needs to be applied as a jQuery option's value, no quotes are needed.*/
-	                if(is_string($value) && substr($value, 0, 3) == "js:") $options .= substr($value, 3);
-	                else $options .= var_export($value, true);
-	            }
-	            
-	            echo "{ ", $options, " }";
-	        }
 		}
 	
 		public function setForm(Form $form)
@@ -201,19 +171,5 @@
 		public function render()
 		{
 			echo '<input', $this->getAttributes(), '/>';
-		}
-	
-		/*If an element requires inline stylesheet definitions, this method is used send them to the browser before
-		the form is rendered.*/
-		public function renderCSS()
-		{
-			
-		}
-	
-		/*If an element requires javascript to be loaded, this method is used send them to the browser after
-		the form is rendered.*/
-		public function renderJS()
-		{
-			
 		}
 	}

@@ -2,14 +2,14 @@
 	
 	class Element_Textarea extends Element
 	{
-		protected $attributes = array("class" => "", "rows" => "5");
+		protected $attributes = array('class' => '', 'rows' => '5');
 
 		public function render()
 		{
-	        echo "<textarea", $this->getAttributes("value"), ">";
+	        echo '<textarea' .  $this->getAttributes('value') . '>';
 	        
-	        if(!empty($this->attributes["value"])) echo $this->attributes["value"];
+	        if(!empty($this->attributes['value'])) echo trim($this->attributes['value']);
 	        
-	        echo "</textarea>";
+	        echo '</textarea>';
 	    }
 	}

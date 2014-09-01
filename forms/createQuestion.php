@@ -18,7 +18,7 @@
 		new Element_HTMLExternal(
 			'
 			<div class="form_row_left">
-				<label for="username"><span>Number of Question:</span></label>
+				<label for="numberOfQuestion"><span>Number of Question:</span></label>
 			</div>
 			'
 		)
@@ -34,6 +34,50 @@
 			)
 			, "<error for='numberOfQuestion'>Please enter a number between 1 to 32</error>"
 		)
+	);
+	
+	$formContents->addElement(
+		new Element_HTMLExternal(
+			'
+			<div class="form_row_left">
+				<label for="grade"><span>Choose a Grade:</span></label>
+			</div>
+			'
+		)
+	);
+	
+	$formContents->addElement(
+		new Element_Select(
+			'', 'grade', 'right', $CLASS_GRADE,
+			array('id' => 'grade', 'validate' => 'checkGrade', 'value' => $_REQUEST['grade']),
+			"<error for='grade'>Please select a valid grade</error>"
+		)
+	);
+	
+	$formContents->addElement(
+		new Element_HTMLExternal(
+			'
+			<div class="form_row_left">
+			<label for="grade"><span>Choose a Subject:</span></label>
+			</div>
+			'
+		)
+	);
+	
+	$formContents->addElement(
+		new Element_Select(
+			'', 'subject', 'right', $CLASS_SUBJECT,
+			array('id' => 'subject', 'validate' => 'checkSubject', 'value' => $_REQUEST['subject']),
+			"<error for='subject'>Please select a valid subject</error>"
+		)
+	);
+	
+	$formContents->addElement(
+        new Element_Select(
+            '', 'chapter', 'right', $CHAPTER_NAME,
+            array('id' => 'chapter', 'validate' => 'checkChapter', 'value' => $_REQUEST['chapter']),
+            "<error for='chapter'>Please select a valid chapter</error>"
+        )
 	);
 	
 	$formContents->addElement(new Element_HTMLExternal("</div></fieldset>"));
@@ -59,7 +103,17 @@
 
 		if($processor->validate())
 		{
-			header('Location: '. CSettings::$HTTP_PROTOCOL . CSettings::$HOST . 'createQuestonDetails.php');
+			$numberOfQuestion	= $_POST['numberOfQuestion'];
+			$grade				= $_POST['grade'];
+			$subject			= $_POST['subject'];
+			$chapter			= $_POST['chapter'];
+			
+			header(
+				'Location: '. CSettings::$HTTP_PROTOCOL . CSettings::$HOST .
+				'/createQuestionDetails.php?question=' . $numberOfQuestion . '&grade=' . $grade .
+				'&subject=' . $subject . '&chapter=' . $chapter
+			);
+			
 			exit;
 		}
 	}

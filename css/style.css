@@ -98,7 +98,7 @@ body
 	padding-bottom:5px;
 	position:absolute;
 	right:0;
-	top:10px;
+	top:5px;
 	list-style:none;
 }
 
@@ -110,6 +110,7 @@ body
 	font-weight:bold;
 	line-height:1.2em;
 	margin-right:10px;
+	margin-top:5px;
 	padding-right:12px;
 }
 
@@ -1717,11 +1718,22 @@ a.language_name{
 	font-weight:normal;
 }
 
+.loginFormContainer fieldset label span
+{
+    float:left;
+    text-align:left;
+}
+
 .loginFormContainer fieldset input
 {
 	display:block;
 	width:100%;
 	margin-top: 0;
+}
+
+.loginFormContainer fieldset input[type="file"]
+{
+    margin-left: 100px;
 }
 
 .loginFormContainer .form_row_left
@@ -1892,28 +1904,6 @@ a.language_name{
 	text-align: center;
 }
 
-.socialButton
-{
-	display: block;
-	font-size: 0;
-	height: 0;
-    list-style: none;
-    margin-top: 20px;
-    margin-right: 10px;
-    padding: 0;
-    float: right;
-}
-
-.socialButton > li { display: block; margin: 0; padding: 10px; float: right; }
-.socialButton .socialite { display: block; position: relative; background: url(../images/social-sprite.png) 0 0 no-repeat; }
-.socialButton .socialite-loaded { background: none !important; }
-
-.socialButton .twitter-share { width: 55px; height: 65px; background-position: 0 0; }
-.socialButton .googleplus-one { width: 50px; height: 65px; background-position: -75px 0; }
-.socialButton .facebook-like { width: 50px; height: 65px; background-position: -145px 0; }
-.socialButton .linkedin-share { width: 60px; height: 65px; background-position: -215px 0; }
-.vhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
-
 #leanOverlay
 {
     position: fixed;
@@ -1939,18 +1929,6 @@ a.language_name{
     display: none;
     padding-bottom: 2px;
     width: auto;
-}
-
-.modalClose
-{
-    background: url("../images/modalClose.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
-    display: block;
-    height: 14px;
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    width: 14px;
-    z-index: 2;
 }
 
 .displayTableCell
@@ -1998,4 +1976,69 @@ a.language_name{
 {
 	width: 505px;
 	height: 20px;
+}
+
+.dashboardPostingUL
+{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.dashboardPostingUL > li
+{
+    margin: 0;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 0;
+    background: url(iPhoneArrow.png) no-repeat right center;
+    font-size: 20px;
+    font-weight: bold;
+    list-style: none;
+}
+
+.dashboardPostingUL > li > a
+{
+    display: block;
+    padding: 8px 32px 8px 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.subtxt
+{
+    font-size: small;
+    font-weight: normal;
+}
+
+.onHold
+{
+	background:red;
+	color:#FFFFFF;
+	display:inline-block;
+	font-size:0.6rem;
+	font-style:normal;
+	letter-spacing:2px;
+	line-height:15px;
+	margin:-3px 0 0 5px;
+	padding:0 3px 0 5px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.imageMultipleBorders
+{
+    margin:0;
+    padding:0;	
+}
+
+.imageMultipleBorders img
+{
+    border-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 3px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.247), 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    outline-color: rgb(88, 86, 82);
+    outline-width: 0;
 }

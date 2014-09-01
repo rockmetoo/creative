@@ -51,15 +51,7 @@
 					<div style="float: right; padding-left: 10px; font-size: 25px; position: relative; margin-top: 0%; font-style: italic;">
 						<a href="index.php" style="text-decoration: none;color: black">CREATIVE</a>
 					</div>
-					<ul class="headerList1">
-						<li>
-							<?php echo $lang->get('sign in as') . '<a href="profile.php" target="_self">' . $username . '</a>'; ?>
-						</li>
-						<li class="last">
-							<a href="signout.php" style="font-size:12px;color:#FF4000;font-weight:bold;padding-left:10px">Sign Out</a>
-						</li>
-			    	</ul>
-			    	<div class="clear"></div>
+					<?php echo CUserMenu::loginAsPanel($lang, $username); ?>
 				</div>
 			</div>
 			<div class="formFullContent">

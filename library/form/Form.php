@@ -133,7 +133,7 @@
 		public function getErrors(){
 			$errors = array();
 			$id = $this->attributes["id"];
-			if(!empty($COCKPIT_SYSTEM_DEF["pfbc"][$id]["errors"])) $errors = $COCKPIT_SYSTEM_DEF["pfbc"][$id]["errors"];
+			if(!empty($CREATIVE_SYSTEM_DEF["pfbc"][$id]["errors"])) $errors = $CREATIVE_SYSTEM_DEF["pfbc"][$id]["errors"];
 			return $errors;
 		}
 
@@ -148,9 +148,9 @@
 		/*
 		 * This method restores the serialized form instance
 		 * */
-		private static function recover($id){
-			if(!empty($COCKPIT_SYSTEM_DEF["pfbc"][$id]["form"]))
-				return unserialize($COCKPIT_SYSTEM_DEF["pfbc"][$id]["form"]);
+		private static function recover($id)
+		{
+			if(!empty($CREATIVE_SYSTEM_DEF["pfbc"][$id]["form"])) return unserialize($CREATIVE_SYSTEM_DEF["pfbc"][$id]["form"]);
 		}
 
 		public function render($returnHTML = false){
@@ -164,13 +164,6 @@
 				ob_end_clean();
 				return $html;
 			}
-		}
-
-		/*When ajax is used to submit the form's data, validation errors need to be manually sent back to the
-		form using json.*/
-		public static function renderAjaxErrorResponse($id = "pfbc"){
-			$form = self::recover($id);
-			$form->error->renderAjaxErrorResponse();
 		}
 
 		/*

@@ -72,7 +72,7 @@
 						<li><a href="adminDashboard.php" style="<?php echo ($selected==0) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">My Dashboard</a></li>
 						<li><a href="profile.php" style="<?php echo ($selected==1) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Profile</a></li>
 						<li><a href="changePassword.php" style="<?php echo ($selected==2) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Change Password</a></li>
-						<li><a>Search User</a></li>
+						<li><a href="searchUser.php" style="<?php echo ($selected==3) ? "font-weight:bold;text-decoration:underline;color:#FF5500;": ""; ?>">Search User</a></li>
 						<li><a>Search Question</a></li>
 					</ul>
 				</div>
@@ -82,5 +82,34 @@
 			$html = ob_get_contents();
 			ob_end_clean();
 			return $html;
+		}
+
+		public static function loginAsPanel($lang, $username)
+		{
+		    global $CREATIVE_USER_DEF;
+		    
+		    ob_start();
+?>
+            <ul class="headerList1">
+				<li>
+					<?php echo $lang->get('sign in as') . '<a href="profile.php" target="_self">' . $username . '</a>'; ?>
+				</li>
+				<li style="margin-top:0px;margin-right:0px;">
+				    <div class="imageMultipleBorders">
+				        <?php
+    				        if($CREATIVE_USER_DEF['profilePicture']) echo '<img src="profilePictureReader.php"></img>';
+    				        else echo '<img src="../images/userUnknown.png"></img>';
+				        ?>
+				    </div>
+				</li>
+				<li class="last">
+					<a href="signout.php" style="font-size:12px;color:#FF4000;font-weight:bold;padding-left:10px">Sign Out</a>
+				</li>
+	    	</ul>
+	    	<div class="clear"></div>
+<?php
+            $html = ob_get_contents();
+            ob_end_clean();
+            return $html;
 		}
 	}

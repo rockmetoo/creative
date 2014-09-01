@@ -2,7 +2,7 @@
 
 	include_once 'form/Form.php';
 	
-	$formContents = new Form("set_password");
+	$formContents = new Form("setPassword");
 	$formContents->configure(array("action" => "changePassword.php", "method" => "post"));
 
 	$formContents->addElement(

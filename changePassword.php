@@ -84,7 +84,20 @@
 			<div class="formFullContent">
 				<div class="formHolder">
 					<div class="formLeftContent">
-						<?php echo CUserMenu::userQuickLinkInLeftSide($lang, 2); ?>
+						<?php
+						    if($CREATIVE_SYSTEM_DEF['userType'] == 1)
+						    {
+						        echo CUserMenu::userQuickLinkInLeftSide($lang, 2);
+						    }
+						    else if($CREATIVE_SYSTEM_DEF['userType'] == 2)
+						    {
+						        echo CUserMenu::expertQuickLinkInLeftSide($lang, 2);
+						    }
+						    else if($CREATIVE_SYSTEM_DEF['userType'] == 3)
+						    {
+						        echo CUserMenu::adminQuickLinkInLeftSide($lang, 2);
+						    }
+						?>
 						<div class="clear5"></div>
 					</div>
 					<div class="formRightContent">

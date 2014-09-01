@@ -23,9 +23,10 @@
 		private $_info			= array();
 		private $_output		= null;
 
-		public $error_class = 'invalid';
-		public $error_no = null;
-		public $error_msg = null;
+		public $error_class     = 'invalid';
+		public $error_no        = null;
+		public $error_msg       = null;
+		public $msg             = null;
 
 		// Properties used during XML parsing for the form() method
 		private $_parser = null;
@@ -608,7 +609,8 @@
 				case 'textarea':
 					$this->_in_text_area = $attr['name'];
 					// Add an error class if an error occured
-					if(isset($attr['name']) && isset($this->_errors[$attr['name']])){
+					if(isset($attr['name']) && isset($this->_errors[$attr['name']]))
+					{
 						$attr['class'] = isset($attr['class']) ? $attr['class'].' '.$this->error_class : $this->error_class;
 					}
 			}
@@ -1031,6 +1033,30 @@
 						case 'checkNumberOfQuestion':
 							$element['rules'][$k]['callback'] = 'this:checkNumberOfQuestion';
 							break;
+							
+						case 'checkAnswer':
+							$element['rules'][$k]['callback'] = 'this:checkAnswer';
+							break;
+							
+						case 'checkGrade':
+							$element['rules'][$k]['callback'] = 'this:checkGrade';
+							break;
+						
+						case 'checkSubject':
+							$element['rules'][$k]['callback'] = 'this:checkSubject';
+							break;
+							
+						case 'checkChapter':
+							$element['rules'][$k]['callback'] = 'this:checkChapter';
+							break;
+							
+						case 'checkProfilePicture':
+						    $element['rules'][$k]['callback'] = 'this:checkProfilePicture';
+						    break;
+						    
+						case 'checkAdditionalFileForQuestion':
+						    $element['rules'][$k]['callback'] = 'this:checkAdditionalFileForQuestion';
+						    break;
 					}
 				}
 			}

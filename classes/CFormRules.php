@@ -127,6 +127,130 @@
 			return true;
 		}
 		
+		public static function checkAnswer($value, $params)
+		{
+			$value = trim($value);
+			
+			if(preg_match("/{{([^}]*)}}/", $value, $matches))
+			{
+				// comma seperated
+				$selectiveAnswers = $matches[1];
+				
+				$arrayOfAnswers		= explode(',', $selectiveAnswers);
+				$numberOfAnswers	= count($arrayOfAnswers);
+				
+				if($numberOfAnswers < 1)
+				{
+					return false;
+				}
+				else
+				{
+					$isAnswerExist = false;
+					
+					for($i=0; $i<$numberOfAnswers; $i++)
+					{
+						$arrayOfAnswers[$i] = trim($arrayOfAnswers[$i]);
+						
+						if(preg_match("/\[([^}]*)\]/", $arrayOfAnswers[$i], $matches))
+						{
+							$isAnswerExist = true;
+						}
+					}
+					
+					return $isAnswerExist;
+				}
+			}
+			
+			// descriptive question
+			return true;
+		}
+		
+		public static function checkGrade($value, $params)
+		{
+			global $CLASS_GRADE;
+				
+			if(array_key_exists($value, $CLASS_GRADE))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static function checkSubject($value, $params)
+		{
+			global $CLASS_SUBJECT;
+		
+			if(array_key_exists($value, $CLASS_SUBJECT))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		public static function checkChapter($value, $params)
+		{
+			global $CHAPTER_NAME;
+		
+			if(array_key_exists($value, $CHAPTER_NAME))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		public static function checkProfilePicture($value, $params)
+		{
+		    // XXX: IMPORTANT - if no file uploaded then return true
+		    if(!isset($_FILES['profilePicture']['name'])) return true;
+		        
+		    $allowed    =  array('gif','png' ,'jpg', 'JPEG', 'jpeg');
+		    $filename   = $_FILES['profilePicture']['name'];
+		    $ext        = pathinfo($filename, PATHINFO_EXTENSION);
+		    
+		    if(!in_array($ext, $allowed))
+		    {
+		        return false;
+		    }
+		    
+		    if($_FILES["profilePicture"]["size"] > 8388608)
+		    {
+		        return false;
+		    }
+		    
+		    return true;
+		}
+		
+		public static function checkAdditionalFileForQuestion($value, $params)
+		{
+		    // XXX: IMPORTANT - if no file uploaded then return true
+		    if($value['name'] == "") return true;
+		    
+		    $allowed    =  array('gif','png' ,'jpg', 'JPEG', 'jpeg', 'avi', 'mp4', 'mp3', 'flv');
+		    $filename   = $value['name'];
+		    $ext        = pathinfo($filename, PATHINFO_EXTENSION);
+		    
+		    if(!in_array($ext, $allowed))
+		    {
+		        return false;
+		    }
+		    
+		    if($value["size"] > 10000000)
+		    {
+		        return false;
+		    }
+		    
+		    return true;
+		}
+		
 		public static function validXML($value, $params=array())
 		{
 			return CXML::isValid($value);

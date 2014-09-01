@@ -174,6 +174,7 @@
 					if(!is_array($v)) $t = preg_replace("/\{\{$k\}\}/ui", unsanitize($v), $t);
 				}
 			}
+			
 			return str_replace('&;', '&', $t);
 		}
 
