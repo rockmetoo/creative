@@ -1,3 +1,24 @@
+# Laravel
+/bootstrap/compiled.php
+.env.*.php
+.env.php
+/vendor
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+*.sqlite
+/app/storage/github
+
 /.project
-/.settings
 /.buildpath
+/.settings
+
+/node_modules
+/nodes
+/bower_components/
+
+# Laravel-Debugger
+app/storage/debugbar/
+public/packages/barryvdh/
+public/packages/maximebf/

@@ -1,0 +1,48 @@
+{
+  "name": "creative",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-coffee": "~0.10.0",
+    "grunt-contrib-compass": "~0.7.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.3.2",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "devDependencies": {
+    "grunt": "0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-internal": "~0.4.6",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.0",
+    "grunt-contrib-watch": "^0.5.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosukesannohe/starter.git"
+  },
+  "author": "Yosuke Sannohe",
+  "license": "BSD",
+  "readmeFilename": "readme.md",
+  "gitHead": "84434b5aab47067f5abc23045b2ed00191867d7a",
+  "supports": {
+    "ie8": true,
+    "only_sp": false
+  },
+  "stylesheets_path": "../css",
+  "images_path": "../images",
+  "javascripts_path": "../js",
+  "jade_path": "./jade",
+  "sass_path": "./sass",
+  "coffee_path": "./coffee",
+  "jst_directory": "jst",
+  "javascripts_src_path": "./js",
+  "images_src_path": "./images",
+  "port": 2111
+}
