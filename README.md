@@ -3,6 +3,13 @@ Creative
 
 A generic way to test yourself
 
+## Server Requirements
+
+The Laravel framework has a few system requirements:
+
+* PHP >= 5.4
+* MCrypt PHP Extension
+
 ## Quick Start
 
     composer install
