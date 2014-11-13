@@ -60,7 +60,7 @@ return array(
         'cluster' => false,
 
         'default' => array(
-            'host'     => 'al-redis.k9erak.0001.apne1.cache.amazonaws.com',
+            'host'     => 'localhost',
             'port'     => 6379,
             'database' => 0,
         ),
