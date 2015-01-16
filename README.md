@@ -1,7 +1,7 @@
 Creative
 ========
 
-A generic way to test yourself
+A generic way to learn and teach
 
 ## Server Requirements
 
