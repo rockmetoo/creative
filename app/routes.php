@@ -13,6 +13,11 @@
 
 Route::get('/', 'IndexController@getIndex');
 
+// XXX: IMPORTANT - for server health monitoring daemon
+Route::get('/status', function() {
+    return Response::json('ok', 200);
+});
+
 // route to show the signin form
 Route::get('/signin', 'AlohaController@getSignin');
 
